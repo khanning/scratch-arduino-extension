@@ -50,7 +50,7 @@
 
   var digitalOutputData = new Uint8Array(16),
     digitalInputData = new Uint8Array(16),
-    analogInputData = new Uint8Array(16);
+    analogInputData = new Uint16Array(16);
 
   var pinModes = new Uint8Array(MAX_PINS),
     analogChannel = new Uint8Array(MAX_PINS);
