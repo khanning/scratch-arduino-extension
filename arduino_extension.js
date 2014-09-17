@@ -166,7 +166,6 @@
           detectedPins.push(modes);
           if (i == sysexBytesRead) break;
         }
-        console.log(analogPins.length);
         queryAnalogMapping();
         break;
       case ANALOG_MAPPING_RESPONSE:
@@ -248,7 +247,7 @@
         alert('Pin ' + pin + ' does not support analog mode');
         return;
       }
-      return analogInputData[pin];
+      return Math.round((analogInputData[pin] * 100) / 1023);
     } else {
       alert('Analog pin ' + pin + ' does not exist');
       return;
@@ -270,8 +269,9 @@
       }
       if (val < 0)
         val = 0;
-      else if (val > 255)
-        val = 255;
+      else if (val > 100)
+        val = 100
+      val = Math.round((val / 100) * 255);
       pinMode(pin, PWM);
       var msg = new Uint8Array([
           ANALOG_MESSAGE | (pin & 0x0F),
