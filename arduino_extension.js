@@ -29,11 +29,13 @@
     CAPABILITY_QUERY = 0x6B,
     CAPABILITY_RESPONSE = 0x6C;
 
-  var INPUT = 0,
-    OUTPUT = 1,
-    ANALOG = 2,
-    PWM = 3,
-    SERVO = 4;
+  var INPUT = 0x00,
+    OUTPUT = 0x01,
+    ANALOG = 0x02,
+    PWM = 0x03,
+    SERVO = 0x04,
+    SHIFT = 0x05,
+    I2C = 0x06;
 
   var LOW = 0,
     HIGH = 1;
@@ -52,8 +54,8 @@
     digitalInputData = new Uint8Array(16),
     analogInputData = new Uint16Array(16);
 
-  var pinModes = new Uint8Array(MAX_PINS),
-    analogChannel = new Uint8Array(MAX_PINS);
+  var analogChannel = new Uint8Array(MAX_PINS);
+  var detectedPins = [];
 
   var majorVersion = 0,
     minorVersion = 0;
@@ -75,7 +77,8 @@
         var output = new Uint8Array([REPORT_DIGITAL | i, 0x01]);
         device.send(output.buffer);
       }
-      queryAnalogMapping();
+
+      queryCapabilities();
 
       // TEMPORARY WORKAROUND
       // Since _deviceRemoved is not used with Serial devices
@@ -99,6 +102,20 @@
       queryFirmware();
       setTimeout(waitForDevice, 1000);
     }
+  }
+
+  function pinExists(pin) {
+    if (pin < 0 || pin >= detectedPins.length)
+      return false;
+    else
+      return true;
+  }
+
+  function hasCapability(pin, mode) {
+    if (detectedPins[pin].indexOf(mode) > -1)
+      return true;
+    else
+      return false;
   }
 
   function queryFirmware() {
@@ -136,7 +153,16 @@
   function processSysexMessage() {
     switch(storedInputData[0]) {
       case CAPABILITY_RESPONSE:
-        //TODO
+        for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
+          var modes = [];
+          while (storedInputData[i++] != 0x7F) {
+            modes.push(storedInputData[i-1]);
+            i++; //Skip mode resolution
+          }
+          detectedPins.push(modes);
+          if (i == sysexBytesRead) break;
+        }
+        queryAnalogMapping();
         break;
       case ANALOG_MAPPING_RESPONSE:
         for (var pin = 0; pin < analogChannel.length; pin++)
