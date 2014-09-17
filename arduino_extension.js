@@ -344,7 +344,7 @@
       [' ', 'turn pin %n %m.outputs', 'digitalWrite', '1', 'on'],
       [' ', 'set pin %n to %n', 'analogWrite', '9', '255'],
       ['b', 'pin %n on?', 'digitalRead', '1'],
-      ['r', 'read pin %n', 'analogRead', '3'], 
+      ['r', 'read analog pin %n', 'analogRead', '3'], 
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', '1', 'on'],
       ['h', 'when pin %n %m.ops %n', 'whenAnalogRead', '1', '>', '100']
     ],
