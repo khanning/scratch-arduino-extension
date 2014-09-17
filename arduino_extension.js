@@ -317,21 +317,25 @@
   };
 
   ext.whenAnalogRead = function(pin, op, val) {
-    if (op == '>')
-      return inputVals[pin] > val;
-    else if (op == '<')
-      return inputVals[pin] < val;
-    else if (op == '=')
-      return inputVals[pin] == val;
-    else
-      return false;
+    if (pin >= 0 && pin < analogPins.length) {
+      if (op == '>')
+        return analogRead(pin) > val;
+      else if (op == '<')
+        return analogRead(pin) < val;
+      else if (op == '=')
+        return analogRead(pin) == val;
+      else
+        return false;
+    }
   };
 
   ext.whenDigitalRead = function(pin, val) {
-    if (val == 'on')
-      return digitalRead(pin);
-    else if (val == 'off')
-      return digitalRead(pin) == false;
+    if (pin >= 0 && pin < detectedPins.length) {
+      if (val == 'on')
+        return digitalRead(pin);
+      else if (val == 'off')
+        return digitalRead(pin) == false;
+    }
   };
  
   ext._getStatus = function() {
@@ -373,7 +377,7 @@
       ['b', 'pin %n on?', 'digitalRead', '1'],
       ['r', 'read analog pin %n', 'analogRead', '3'], 
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', '1', 'on'],
-      ['h', 'when pin %n %m.ops %n', 'whenAnalogRead', '1', '>', '100']
+      ['h', 'when analog pin %n %m.ops %n', 'whenAnalogRead', '1', '>', '100']
     ],
     menus: {
       outputs: ['on', 'off'],
