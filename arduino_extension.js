@@ -56,6 +56,7 @@
 
   var analogChannel = new Uint8Array(MAX_PINS);
   var detectedPins = [];
+  var analogPins = [];
 
   var majorVersion = 0,
     minorVersion = 0;
@@ -105,10 +106,11 @@
   }
 
   function pinExists(pin) {
-    if (pin < 0 || pin >= detectedPins.length)
+    if (pin < 0 || pin >= detectedPins.length) {
+      alert('Pin ' + pin + ' does not exist');
       return false;
-    else
-      return true;
+    }
+    return true;
   }
 
   function hasCapability(pin, mode) {
@@ -159,9 +161,12 @@
             modes.push(storedInputData[i-1]);
             i++; //Skip mode resolution
           }
+          if (modes.indexOf(ANALOG) > -1)
+            analogPins.push(pin);
           detectedPins.push(modes);
           if (i == sysexBytesRead) break;
         }
+        console.log(analogPins.length);
         queryAnalogMapping();
         break;
       case ANALOG_MAPPING_RESPONSE:
@@ -238,36 +243,58 @@
   }
 
   function analogRead(pin) {
-    return analogInputData[pin];
+    if (pin >= 0 && pin < analogPins.length) {
+      if (!hasCapability(analogPins[pin], ANALOG)) {
+        alert('Pin ' + pin + ' does not support analog mode');
+        return;
+      }
+      return analogInputData[pin];
+    } else {
+      alert('Analog pin ' + pin + ' does not exist');
+      return;
+    }
   }
 
   function digitalRead(pin) {
-    pinMode(pin, INPUT);
-    return (digitalInputData[pin >> 3] >> (pin & 0x07)) & 0x01;
+    if (pinExists(pin)) {
+      pinMode(pin, INPUT);
+      return (digitalInputData[pin >> 3] >> (pin & 0x07)) & 0x01;
+    }
   }
 
   function analogWrite(pin, val) {
-    //TODO: Check pin capabilities
-    pinMode(pin, PWM);
-    var msg = new Uint8Array([
-        ANALOG_MESSAGE | (pin & 0x0F),
-        val & 0x7F,
-        val >> 7]);
-    device.send(msg.buffer);
+    if (pinExists(pin)) {
+      if (!hasCapability(pin, PWM)) {
+        alert('Pin ' + pin + ' does not support PWM mode');
+        return;
+      }
+      if (val < 0)
+        val = 0;
+      else if (val > 255)
+        val = 255;
+      pinMode(pin, PWM);
+      var msg = new Uint8Array([
+          ANALOG_MESSAGE | (pin & 0x0F),
+          val & 0x7F,
+          val >> 7]);
+      device.send(msg.buffer);
+    }
   }
 
   function digitalWrite(pin, val) {
-    pinMode(pin, OUTPUT);
-    var portNum = (pin >> 3) & 0x0F;
-    if (val == 0)
-      digitalOutputData[portNum] &= ~(1 << (pin & 0x07));
-    else
-      digitalOutputData[portNum] |= (1 << (pin & 0x07));
-    var msg = new Uint8Array([
-        DIGITAL_MESSAGE | portNum,
-        digitalOutputData[portNum] & 0x7F,
-        digitalOutputData[portNum] >> 0x07]);
-    device.send(msg.buffer);
+    if (pinExists(pin)) {
+      pinMode(pin, OUTPUT);
+      var portNum = (pin >> 3) & 0x0F;
+      if (val == 0)
+        digitalOutputData[portNum] &= ~(1 << (pin & 0x07));
+      else
+        digitalOutputData[portNum] |= (1 << (pin & 0x07));
+      var msg = new Uint8Array([
+          DIGITAL_MESSAGE | portNum,
+          digitalOutputData[portNum] & 0x7F,
+          digitalOutputData[portNum] >> 0x07]);
+      device.send(msg.buffer);
+    }
   }
 
   ext.analogWrite = function(pin, val) {
