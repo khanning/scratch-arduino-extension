@@ -373,11 +373,11 @@
   var descriptor = {
     blocks: [
       [' ', 'turn pin %n %m.outputs', 'digitalWrite', '1', 'on'],
-      [' ', 'set pin %n to %n', 'analogWrite', '9', '255'],
+      [' ', 'set pin %n to %n%', 'analogWrite', '9', '100'],
       ['b', 'pin %n on?', 'digitalRead', '1'],
-      ['r', 'read analog pin %n', 'analogRead', '3'], 
+      ['r', 'read analog pin %n', 'analogRead', '0'], 
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', '1', 'on'],
-      ['h', 'when analog pin %n %m.ops %n', 'whenAnalogRead', '1', '>', '100']
+      ['h', 'when analog pin %n %m.ops %n%', 'whenAnalogRead', '1', '>', '50']
     ],
     menus: {
       outputs: ['on', 'off'],
