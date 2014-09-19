@@ -55,8 +55,9 @@
     analogInputData = new Uint16Array(16);
 
   var analogChannel = new Uint8Array(MAX_PINS);
-  var detectedPins = [];
-  var analogPins = [];
+  var pins = [];
+  var pinModes = [];
+  for (var i = 0; i < 7; i++) pinModes[i] = [];
   var servoPins = { A: 0, B: 0, C: 0, D: 0 };
 
   var majorVersion = 0,
@@ -107,16 +108,8 @@
     }, 100);
   }
 
-  function pinExists(pin) {
-    if (pin < 0 || pin >= detectedPins.length) {
-      alert('Pin ' + pin + ' does not exist');
-      return false;
-    }
-    return true;
-  }
-
   function hasCapability(pin, mode) {
-    if (detectedPins[pin].indexOf(mode) > -1)
+    if (pinModes[mode].indexOf(pin) > -1)
       return true;
     else
       return false;
@@ -158,14 +151,11 @@
     switch(storedInputData[0]) {
       case CAPABILITY_RESPONSE:
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
-          var modes = [];
           while (storedInputData[i++] != 0x7F) {
-            modes.push(storedInputData[i-1]);
+            pinModes[storedInputData[i-1]].push(pin);
             i++; //Skip mode resolution
           }
-          if (modes.indexOf(ANALOG) > -1)
-            analogPins.push(pin);
-          detectedPins.push(modes);
+          pins.push(pin);
           if (i == sysexBytesRead) break;
         }
         queryAnalogMapping();
@@ -252,57 +242,59 @@
   }
 
   function analogRead(pin) {
-    if (pin >= 0 && pin < analogPins.length) {
-      if (!hasCapability(analogPins[pin], ANALOG)) {
-        alert('Pin ' + pin + ' does not support analog mode');
-        return;
-      }
+    if (pin >= 0 && pin < pinModes[ANALOG].length) {
       return Math.round((analogInputData[pin] * 100) / 1023);
     } else {
-      alert('Analog pin ' + pin + ' does not exist');
+      var valid = [];
+      for (var i = 0; i < pinModes[ANALOG].length; i++)
+        valid.push(i);
+      console.log(valid.join(', '));
+      alert('ERROR: valid analog pins are ' + valid.join(', '));
       return;
     }
   }
 
   function digitalRead(pin) {
-    if (pinExists(pin)) {
-      pinMode(pin, INPUT);
-      return (digitalInputData[pin >> 3] >> (pin & 0x07)) & 0x01;
+    if (!hasCapability(pin, INPUT)) {
+      alert('ERROR: valid input pins are ' + pinModes[INPUT].join(', '));
+      return;
     }
+    pinMode(pin, INPUT);
+    return (digitalInputData[pin >> 3] >> (pin & 0x07)) & 0x01;
   }
 
   function analogWrite(pin, val) {
-    if (pinExists(pin)) {
-      if (!hasCapability(pin, PWM)) {
-        alert('Pin ' + pin + ' does not support PWM mode');
-        return;
-      }
-      if (val < 0) val = 0;
-      else if (val > 100) val = 100
-      val = Math.round((val / 100) * 255);
-      pinMode(pin, PWM);
-      var msg = new Uint8Array([
-          ANALOG_MESSAGE | (pin & 0x0F),
-          val & 0x7F,
-          val >> 7]);
-      device.send(msg.buffer);
+    if (!hasCapability(pin, PWM)) {
+      alert('ERROR: valid PWM pins are ' + pinModes[PWM].join(', '));
+      return;
     }
+    if (val < 0) val = 0;
+    else if (val > 100) val = 100
+    val = Math.round((val / 100) * 255);
+    pinMode(pin, PWM);
+    var msg = new Uint8Array([
+        ANALOG_MESSAGE | (pin & 0x0F),
+        val & 0x7F,
+        val >> 7]);
+    device.send(msg.buffer);
   }
 
   function digitalWrite(pin, val) {
-    if (pinExists(pin)) {
-      pinMode(pin, OUTPUT);
-      var portNum = (pin >> 3) & 0x0F;
-      if (val == 0)
-        digitalOutputData[portNum] &= ~(1 << (pin & 0x07));
-      else
-        digitalOutputData[portNum] |= (1 << (pin & 0x07));
-      var msg = new Uint8Array([
-          DIGITAL_MESSAGE | portNum,
-          digitalOutputData[portNum] & 0x7F,
-          digitalOutputData[portNum] >> 0x07]);
-      device.send(msg.buffer);
+    if (!hasCapability(pin, OUTPUT)) {
+      alert('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
+      return;
     }
+    pinMode(pin, OUTPUT);
+    var portNum = (pin >> 3) & 0x0F;
+    if (val == 0)
+      digitalOutputData[portNum] &= ~(1 << (pin & 0x07));
+    else
+      digitalOutputData[portNum] |= (1 << (pin & 0x07));
+    var msg = new Uint8Array([
+        DIGITAL_MESSAGE | portNum,
+        digitalOutputData[portNum] & 0x7F,
+        digitalOutputData[portNum] >> 0x07]);
+    device.send(msg.buffer);
   }
 
   ext.analogWrite = function(pin, val) {
@@ -325,7 +317,7 @@
   };
 
   ext.whenAnalogRead = function(pin, op, val) {
-    if (pin >= 0 && pin < analogPins.length) {
+    if (pin >= 0 && pin < pinModes[ANALOG].length) {
       if (op == '>')
         return analogRead(pin) > val;
       else if (op == '<')
@@ -338,7 +330,7 @@
   };
 
   ext.whenDigitalRead = function(pin, val) {
-    if (pin >= 0 && pin < detectedPins.length) {
+    if (hasCapability(pin, INPUT)) {
       if (val == 'on')
         return digitalRead(pin);
       else if (val == 'off')
@@ -347,14 +339,12 @@
   };
 
   ext.connectServo = function(servo, pin) {
-    if (pinExists(pin)) {
-      if (!hasCapability(pin, SERVO)) {
-        alert('Pin ' + pin + ' does not have servo capability');
-        return;
-      }
-      servoPins[servo] = pin;
-      pinMode(pin, SERVO);
+    if (!hasCapability(pin, SERVO)) {
+      alert('ERROR: valid servo pins are ' + pinModes[SERVO].join(', '));
+      return;
     }
+    servoPins[servo] = pin;
+    pinMode(pin, SERVO);
   };
 
   ext.rotateServo = function(servo, deg) {
