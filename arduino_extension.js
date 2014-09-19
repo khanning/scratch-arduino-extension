@@ -57,6 +57,7 @@
   var analogChannel = new Uint8Array(MAX_PINS);
   var detectedPins = [];
   var analogPins = [];
+  var servoPins = { A: 0, B: 0, C: 0, D: 0 };
 
   var majorVersion = 0,
     minorVersion = 0;
@@ -345,6 +346,27 @@
     }
   };
 
+  ext.connectServo = function(servo, pin) {
+    if (pinExists(pin)) {
+      if (!hasCapability(pin, SERVO)) {
+        alert('Pin ' + pin + ' does not have servo capability');
+        return;
+      }
+      servoPins[servo] = pin;
+      pinMode(pin, SERVO);
+    }
+  };
+
+  ext.rotateServo = function(servo, deg) {
+    if (deg < 0) deg = 0;
+    else if (deg > 180) deg = 180;
+    var msg = new Uint8Array([
+        ANALOG_MESSAGE | (servoPins[servo] & 0x0F),
+        deg & 0x7F,
+        deg >> 0x07]);
+    device.send(msg.buffer);
+  };
+ 
   ext._getStatus = function() {
     if (!connected)
       return { status:1, msg:'Disconnected' };
@@ -405,12 +427,15 @@
       ['b', 'pin %n on?', 'digitalRead', '1'],
       ['r', 'read analog pin %n', 'analogRead', '0'], 
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', '1', 'on'],
-      ['h', 'when analog pin %n %m.ops %n%', 'whenAnalogRead', '1', '>', '50']
+      ['h', 'when analog pin %n %m.ops %n%', 'whenAnalogRead', '1', '>', '50'],
+      [' ', 'connect servo %m.servos to pin %n', 'connectServo', 'A', '3'],
+      [' ', 'rotate servo %m.servos to %n degrees', 'rotateServo', 'A', '180']
     ],
     menus: {
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
-      modes: ['OUTPUT', 'INPUT', 'PULL_UP']
+      modes: ['OUTPUT', 'INPUT', 'PULL_UP'],
+      servos: ['A', 'B', 'C', 'D']
     },  
     url: 'http://arduino.cc'
   };
