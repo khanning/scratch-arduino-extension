@@ -70,39 +70,40 @@
   // ping device regularly to check connection
   var pinging = false;
   var pingCount = 0;
-  var poller = null;
+  var pinger = null;
 
-  function waitForDevice() {
-    if (connected) {
-      for (var i = 0; i < 16; i++) {
-        var output = new Uint8Array([REPORT_DIGITAL | i, 0x01]);
-        device.send(output.buffer);
-      }
+  function init() {
 
-      queryCapabilities();
-
-      // TEMPORARY WORKAROUND
-      // Since _deviceRemoved is not used with Serial devices
-      // ping device regularly to check connection
-      poller = setInterval(function() {
-        if (pinging) {
-          if (++pingCount > 6) {
-            connected = false;
-            device.close();
-            device = null;
-            clearInterval(poller);
-            return;
-          }
-        } else {
-          queryFirmware();
-          pinging = true;
-        }
-      }, 100);
-
-    } else {
-      queryFirmware();
-      setTimeout(waitForDevice, 1000);
+    for (var i = 0; i < 16; i++) {
+      var output = new Uint8Array([REPORT_DIGITAL | i, 0x01]);
+      device.send(output.buffer);
     }
+
+    queryCapabilities();
+
+    // TEMPORARY WORKAROUND
+    // Since _deviceRemoved is not used with Serial devices
+    // ping device regularly to check connection
+    pinger = setInterval(function() {
+      if (pinging) {
+        if (++pingCount > 6) {
+          clearInterval(pinger);
+          pinger = null;
+          connected = false;
+          if (device) device.close();
+          device = null;
+          return;
+        }
+      } else {
+        if (!device) {
+          clearInterval(pinger);
+          pinger = null;
+          return;
+        }
+        queryFirmware();
+        pinging = true;
+      }
+    }, 100);
   }
 
   function pinExists(pin) {
@@ -126,14 +127,14 @@
   }
  
   function queryCapabilities() {
-    console.log('Querying capabilities');
+    console.log('Querying ' + device.id + ' capabilities');
     var msg = new Uint8Array([
         START_SYSEX, CAPABILITY_QUERY, END_SYSEX]);
     device.send(msg.buffer);
   }
 
   function queryAnalogMapping() {
-    console.log('Querying Analog Mapping');
+    console.log('Querying ' + device.id + ' analog mapping');
     var msg = new Uint8Array([
         START_SYSEX, ANALOG_MAPPING_QUERY, END_SYSEX]);
     device.send(msg.buffer);
@@ -182,6 +183,14 @@
         }
         break;
       case QUERY_FIRMWARE:
+        if (!connected) {
+          clearInterval(poller);
+          poller = null;
+          clearTimeout(watchdog);
+          watchdog = null;
+          connected = true;
+          setTimeout(init, 200);
+        }
         pinging = false;
         pingCount = 0;
         break;
@@ -267,10 +276,8 @@
         alert('Pin ' + pin + ' does not support PWM mode');
         return;
       }
-      if (val < 0)
-        val = 0;
-      else if (val > 100)
-        val = 100
+      if (val < 0) val = 0;
+      else if (val > 100) val = 100
       val = Math.round((val / 100) * 255);
       pinMode(pin, PWM);
       var msg = new Uint8Array([
@@ -337,7 +344,7 @@
         return digitalRead(pin) == false;
     }
   };
- 
+
   ext._getStatus = function() {
     if (!connected)
       return { status:1, msg:'Disconnected' };
@@ -350,17 +357,38 @@
     // Not currently implemented with serial devices
   };
 
+  var potentialDevices = [];
   ext._deviceConnected = function(dev) {
-    if (device) return;
-    device = dev;
+    potentialDevices.push(dev);
+    if (!device)
+      tryNextDevice();
+  };
+
+  var poller = null;
+  var watchdog = null;
+  function tryNextDevice() {
+    device = potentialDevices.shift();
+    if (!device) return;
+
     device.open({ stopBits: 0, bitRate: 57600, ctsFlowControl: 0 });
-    console.log("Opening Serial connection");
+    console.log('Attempting connection with ' + device.id);
     device.set_receive_handler(function(data) {
-      if (!connected) connected = true;
       var inputData = new Uint8Array(data);
       processInput(inputData);
-    }); 
-    waitForDevice();
+    });
+
+    poller = setInterval(function() {
+      queryFirmware();
+    }, 100);
+
+    watchdog = setTimeout(function() {
+      clearInterval(poller);
+      poller = null;
+      device.set_receive_handler(null);
+      device.close();
+      device = null;
+      tryNextDevice();
+    }, 5000);
   };
 
   ext._shutdown = function() {
@@ -382,7 +410,7 @@
     menus: {
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
-      modes: [ 'OUTPUT', 'INPUT', 'PULL_UP']
+      modes: ['OUTPUT', 'INPUT', 'PULL_UP']
     },  
     url: 'http://arduino.cc'
   };
