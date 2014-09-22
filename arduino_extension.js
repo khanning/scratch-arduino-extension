@@ -55,7 +55,7 @@
     analogInputData = new Uint16Array(16);
 
   var analogChannel = new Uint8Array(MAX_PINS);
-  var pins = [];
+  var pinVals = {};
   var pinModes = [];
   for (var i = 0; i < 7; i++) pinModes[i] = [];
   var servoPins = { A: 0, B: 0, C: 0, D: 0 };
@@ -155,7 +155,7 @@
             pinModes[storedInputData[i-1]].push(pin);
             i++; //Skip mode resolution
           }
-          pins.push(pin);
+          pinVals[pin] = 0;
           if (i == sysexBytesRead) break;
         }
         queryAnalogMapping();
@@ -271,12 +271,14 @@
     if (val < 0) val = 0;
     else if (val > 100) val = 100
     val = Math.round((val / 100) * 255);
+    if (pinVals[pin] == val) return;
     pinMode(pin, PWM);
     var msg = new Uint8Array([
         ANALOG_MESSAGE | (pin & 0x0F),
         val & 0x7F,
         val >> 7]);
     device.send(msg.buffer);
+    pinVals[pin] = val;
   }
 
   function digitalWrite(pin, val) {
@@ -284,12 +286,17 @@
       alert('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
       return;
     }
-    pinMode(pin, OUTPUT);
     var portNum = (pin >> 3) & 0x0F;
-    if (val == 0)
+    if (val == 0) {
+      if (pinVals[pin] == val) return;
+      pinVals[pin] == val;
       digitalOutputData[portNum] &= ~(1 << (pin & 0x07));
-    else
+    } else {
+      if (pinVals[pin] == 255) return;
+      pinVals[pin] = 255;
       digitalOutputData[portNum] |= (1 << (pin & 0x07));
+    }
+    pinMode(pin, OUTPUT);
     var msg = new Uint8Array([
         DIGITAL_MESSAGE | portNum,
         digitalOutputData[portNum] & 0x7F,
