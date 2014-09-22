@@ -287,9 +287,9 @@
       return;
     }
     var portNum = (pin >> 3) & 0x0F;
-    if (val == 0) {
+    if (val == LOW) {
       if (pinVals[pin] == val) return;
-      pinVals[pin] == val;
+      pinVals[pin] = val;
       digitalOutputData[portNum] &= ~(1 << (pin & 0x07));
     } else {
       if (pinVals[pin] == 255) return;
