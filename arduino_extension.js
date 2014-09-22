@@ -59,6 +59,7 @@
   var pinModes = [];
   for (var i = 0; i < 7; i++) pinModes[i] = [];
   var servoPins = { A: 0, B: 0, C: 0, D: 0 };
+  var ledPins = { A: 0, B: 0, C: 0, D: 0 };
 
   var majorVersion = 0,
     minorVersion = 0;
@@ -363,6 +364,25 @@
         deg >> 0x07]);
     device.send(msg.buffer);
   };
+
+  ext.connectLED = function(led, pin) {
+    if (!hasCapability(pin, OUTPUT)) {
+      alert('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
+      return;
+    }
+    ledPins[led] = pin;
+  };
+
+  ext.digitalLED = function(led, val) {
+    if (val == 'on')
+      digitalWrite(ledPins[led], HIGH);
+    else if (val == 'off')
+      digitalWrite(ledPins[led], LOW);
+  };
+
+  ext.analogLED = function(led, val) {
+    analogWrite(ledPins[led], val);
+  };
  
   ext._getStatus = function() {
     if (!connected)
@@ -425,14 +445,17 @@
       ['r', 'read analog pin %n', 'analogRead', '0'], 
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', '1', 'on'],
       ['h', 'when analog pin %n %m.ops %n%', 'whenAnalogRead', '1', '>', '50'],
-      [' ', 'connect servo %m.servos to pin %n', 'connectServo', 'A', '3'],
-      [' ', 'rotate servo %m.servos to %n degrees', 'rotateServo', 'A', '180']
+      [' ', 'connect servo %m.letters to pin %n', 'connectServo', 'A', '3'],
+      [' ', 'rotate servo %m.letters to %n degrees', 'rotateServo', 'A', '180'],
+      [' ', 'connect led %m.letters to pin %n', 'connectLED', 'A', '3'],
+      [' ', 'turn led %m.letters %m.outputs', 'digitalLED', 'A', 'on'],
+      [' ', 'set led %m.letters brightness to %n%', 'analogLED', 'A', '100']
     ],
     menus: {
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
       modes: ['OUTPUT', 'INPUT', 'PULL_UP'],
-      servos: ['A', 'B', 'C', 'D']
+      letters: ['A', 'B', 'C', 'D']
     },  
     url: 'http://arduino.cc'
   };
