@@ -59,14 +59,17 @@
   var pinModes = [];
   for (var i = 0; i < 7; i++) pinModes[i] = [];
   var hwPins = {
-    'servo 1': 0,
-    'servo 2': 0,
-    'servo 3': 0,
-    'servo 4': 0,
-    'led 1': 0,
-    'led 2': 0,
-    'led 3': 0,
-    'led 4': 0
+    'servo 1': null,
+    'servo 2': null,
+    'servo 3': null,
+    'servo 4': null,
+    'led 1': null,
+    'led 2': null,
+    'led 3': null,
+    'led 4': null,
+    'rotation knob': null,
+    'light sensor': null,
+    'temperature sensor': null
   };
 
   var majorVersion = 0,
@@ -387,6 +390,21 @@
   ext.analogLED = function(led, val) {
     analogWrite(hwPins[led], val);
   };
+  
+  ext.readInput = function(hw) {
+    return analogRead(hwPins[hw]);
+  };
+
+  ext.whenInput = function(hw, op, val) {
+    if (op == '>')
+      return analogRead(hwPins[hw]) > val;
+    else if (op == '<')
+      return analogRead(hwPins[hw]) < val;
+    else if (op == '=')
+      return analogRead(hwPins[hw]) == val;
+    else
+      return false;
+  };
  
   ext._getStatus = function() {
     if (!connected)
@@ -449,13 +467,17 @@
       ['r', 'read analog pin %n', 'analogRead', '0'], 
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', '1', 'on'],
       ['h', 'when analog pin %n %m.ops %n%', 'whenAnalogRead', '1', '>', '50'],
-      [' ', 'connect %m.hw to pin %n', 'connectHW', 'servo 1', '3'],
+      [' ', 'connect %m.hwOut to pin %n', 'connectHW', 'servo 1', '3'],
       [' ', 'rotate %m.servos to %n degrees', 'rotateServo', 'servo 1', '180'],
       [' ', 'turn %m.leds %m.outputs', 'digitalLED', 'led 1', 'on'],
-      [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led 1', '100']
+      [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led 1', '100'],
+      [' ', 'connect %m.hwIn to analog pin %n', 'connectHW', 'rotation knob', '0'],
+      ['r', 'read %m.hwIn', 'readInput', 'rotation knob'],
+      ['h', 'when %m.hwIn %m.ops %n%', 'whenInput', 'rotation knob', '>', '50']
     ],
     menus: {
-      hw: ['servo 1', 'servo 2', 'servo 3', 'servo 4', 'led 1', 'led 2', 'led 3', 'led 4'],
+      hwIn: ['rotation knob', 'light sensor', 'temperature sensor'],
+      hwOut: ['servo 1', 'servo 2', 'servo 3', 'servo 4', 'led 1', 'led 2', 'led 3', 'led 4'],
       leds: ['led 1', 'led 2', 'led 3', 'led 4'],
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
