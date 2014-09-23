@@ -58,8 +58,16 @@
   var pinVals = {};
   var pinModes = [];
   for (var i = 0; i < 7; i++) pinModes[i] = [];
-  var servoPins = { A: 0, B: 0, C: 0, D: 0 };
-  var ledPins = { A: 0, B: 0, C: 0, D: 0 };
+  var hwPins = {
+    'servo 1': 0,
+    'servo 2': 0,
+    'servo 3': 0,
+    'servo 4': 0,
+    'led 1': 0,
+    'led 2': 0,
+    'led 3': 0,
+    'led 4': 0
+  };
 
   var majorVersion = 0,
     minorVersion = 0;
@@ -346,42 +354,38 @@
     }
   };
 
-  ext.connectServo = function(servo, pin) {
-    if (!hasCapability(pin, SERVO)) {
-      alert('ERROR: valid servo pins are ' + pinModes[SERVO].join(', '));
-      return;
-    }
-    servoPins[servo] = pin;
-    pinMode(pin, SERVO);
+  ext.connectHW = function(hw, pin) {
+    hwPins[hw] = pin;
   };
 
   ext.rotateServo = function(servo, deg) {
+    if (!hasCapability(hwPins[servo], SERVO)) {
+      alert('ERROR: valid servo pins are ' + pinModes[SERVO].join(', '));
+      return;
+    }
     if (deg < 0) deg = 0;
     else if (deg > 180) deg = 180;
+    pinMode(hwPins[servo], SERVO);
     var msg = new Uint8Array([
-        ANALOG_MESSAGE | (servoPins[servo] & 0x0F),
+        ANALOG_MESSAGE | (hwPins[servo] & 0x0F),
         deg & 0x7F,
         deg >> 0x07]);
     device.send(msg.buffer);
   };
 
-  ext.connectLED = function(led, pin) {
-    if (!hasCapability(pin, OUTPUT)) {
+  ext.digitalLED = function(led, val) {
+    if (!hasCapability(hwPins[led], OUTPUT)) {
       alert('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
       return;
     }
-    ledPins[led] = pin;
-  };
-
-  ext.digitalLED = function(led, val) {
     if (val == 'on')
-      digitalWrite(ledPins[led], HIGH);
+      digitalWrite(hwPins[led], HIGH);
     else if (val == 'off')
-      digitalWrite(ledPins[led], LOW);
+      digitalWrite(hwPins[led], LOW);
   };
 
   ext.analogLED = function(led, val) {
-    analogWrite(ledPins[led], val);
+    analogWrite(hwPins[led], val);
   };
  
   ext._getStatus = function() {
@@ -445,17 +449,18 @@
       ['r', 'read analog pin %n', 'analogRead', '0'], 
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', '1', 'on'],
       ['h', 'when analog pin %n %m.ops %n%', 'whenAnalogRead', '1', '>', '50'],
-      [' ', 'connect servo %m.letters to pin %n', 'connectServo', 'A', '3'],
-      [' ', 'rotate servo %m.letters to %n degrees', 'rotateServo', 'A', '180'],
-      [' ', 'connect led %m.letters to pin %n', 'connectLED', 'A', '3'],
-      [' ', 'turn led %m.letters %m.outputs', 'digitalLED', 'A', 'on'],
-      [' ', 'set led %m.letters brightness to %n%', 'analogLED', 'A', '100']
+      [' ', 'connect %m.hw to pin %n', 'connectHW', 'servo 1', '3'],
+      [' ', 'rotate %m.servos to %n degrees', 'rotateServo', 'servo 1', '180'],
+      [' ', 'turn %m.leds %m.outputs', 'digitalLED', 'led 1', 'on'],
+      [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led 1', '100']
     ],
     menus: {
+      hw: ['servo 1', 'servo 2', 'servo 3', 'servo 4', 'led 1', 'led 2', 'led 3', 'led 4'],
+      leds: ['led 1', 'led 2', 'led 3', 'led 4'],
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
       modes: ['OUTPUT', 'INPUT', 'PULL_UP'],
-      letters: ['A', 'B', 'C', 'D']
+      servos: ['servo 1', 'servo 2', 'servo 3', 'servo 4']
     },  
     url: 'http://arduino.cc'
   };
