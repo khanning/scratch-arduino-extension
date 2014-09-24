@@ -69,7 +69,11 @@
     'led 4': null,
     'rotation knob': null,
     'light sensor': null,
-    'temperature sensor': null
+    'temperature sensor': null,
+    'button 1': null,
+    'button 2': null,
+    'button 3': null,
+    'button 4': null
   };
 
   var majorVersion = 0,
@@ -395,6 +399,10 @@
     return analogRead(hwPins[hw]);
   };
 
+  ext.isButtonPressed = function(btn) {
+    return digitalRead(hwPins[btn]);
+  };
+
   ext.whenInput = function(hw, op, val) {
     if (op == '>')
       return analogRead(hwPins[hw]) > val;
@@ -473,9 +481,12 @@
       [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led 1', '100'],
       [' ', 'connect %m.hwIn to analog pin %n', 'connectHW', 'rotation knob', '0'],
       ['r', 'read %m.hwIn', 'readInput', 'rotation knob'],
-      ['h', 'when %m.hwIn %m.ops %n%', 'whenInput', 'rotation knob', '>', '50']
+      ['h', 'when %m.hwIn %m.ops %n%', 'whenInput', 'rotation knob', '>', '50'],
+      [' ', 'connect %m.btns to pin %n', 'connectHW', 'button 1', '3'],
+      ['b', '%m.buttons pressed?', 'isButtonPressed', 'button 1']
     ],
     menus: {
+      btns: ['button 1', 'button 2', 'button 3', 'button 4'],
       hwIn: ['rotation knob', 'light sensor', 'temperature sensor'],
       hwOut: ['servo 1', 'servo 2', 'servo 3', 'servo 4', 'led 1', 'led 2', 'led 3', 'led 4'],
       leds: ['led 1', 'led 2', 'led 3', 'led 4'],
