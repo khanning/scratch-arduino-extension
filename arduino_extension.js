@@ -320,6 +320,10 @@
     device.send(msg.buffer);
   }
 
+  ext.isConnected = function() {
+    return connected;
+  };
+
   ext.analogWrite = function(pin, val) {
     analogWrite(pin, val);
   };
@@ -469,6 +473,7 @@
 
   var descriptor = {
     blocks: [
+      ['h', 'when device is connected', 'isConnected'],
       [' ', 'turn pin %n %m.outputs', 'digitalWrite', '1', 'on'],
       [' ', 'set pin %n to %n%', 'analogWrite', '9', '100'],
       ['b', 'pin %n on?', 'digitalRead', '1'],
