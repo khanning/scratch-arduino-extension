@@ -76,6 +76,13 @@
     'button 4': null
   };
 
+  var servoVals = {
+    'servo 1': 0,
+    'servo 2': 0,
+    'servo 3': 0,
+    'servo 4': 0
+  };
+
   var majorVersion = 0,
     minorVersion = 0;
   
@@ -320,6 +327,22 @@
     device.send(msg.buffer);
   }
 
+  function rotateServo(servo, deg) {
+    if (!hasCapability(hwPins[servo], SERVO)) {
+      alert('ERROR: valid servo pins are ' + pinModes[SERVO].join(', '));
+      return;
+    }
+    if (deg < 0) deg = 0;
+    else if (deg > 180) deg = 180;
+    pinMode(hwPins[servo], SERVO);
+    var msg = new Uint8Array([
+        ANALOG_MESSAGE | (hwPins[servo] & 0x0F),
+        deg & 0x7F,
+        deg >> 0x07]);
+    device.send(msg.buffer);
+    servoVals[servo] = deg;
+  }
+
   ext.isConnected = function() {
     return connected;
   };
@@ -370,18 +393,12 @@
   };
 
   ext.rotateServo = function(servo, deg) {
-    if (!hasCapability(hwPins[servo], SERVO)) {
-      alert('ERROR: valid servo pins are ' + pinModes[SERVO].join(', '));
-      return;
-    }
-    if (deg < 0) deg = 0;
-    else if (deg > 180) deg = 180;
-    pinMode(hwPins[servo], SERVO);
-    var msg = new Uint8Array([
-        ANALOG_MESSAGE | (hwPins[servo] & 0x0F),
-        deg & 0x7F,
-        deg >> 0x07]);
-    device.send(msg.buffer);
+    rotateServo(servo, deg);
+  };
+
+  ext.changeServo = function(servo, change) {
+    var deg = servoVals[servo] + change;
+    rotateServo(servo, deg);
   };
 
   ext.digitalLED = function(led, val) {
@@ -482,6 +499,7 @@
       ['h', 'when analog pin %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
       [' ', 'connect %m.hwOut to pin %n', 'connectHW', 'servo 1', 3],
       [' ', 'rotate %m.servos to %n degrees', 'rotateServo', 'servo 1', 180],
+      [' ', 'rotate %m.servos by %n degrees', 'changeServo', 'servo 1', 20],
       [' ', 'turn %m.leds %m.outputs', 'digitalLED', 'led 1', 'on'],
       [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led 1', 100],
       [' ', 'connect %m.hwIn to analog pin %n', 'connectHW', 'rotation knob', 0],
