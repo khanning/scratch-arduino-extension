@@ -271,15 +271,14 @@
       var valid = [];
       for (var i = 0; i < pinModes[ANALOG].length; i++)
         valid.push(i);
-      console.log(valid.join(', '));
-      alert('ERROR: valid analog pins are ' + valid.join(', '));
+      console.log('ERROR: valid analog pins are ' + valid.join(', '));
       return;
     }
   }
 
   function digitalRead(pin) {
     if (!hasCapability(pin, INPUT)) {
-      alert('ERROR: valid input pins are ' + pinModes[INPUT].join(', '));
+      console.log('ERROR: valid input pins are ' + pinModes[INPUT].join(', '));
       return;
     }
     pinMode(pin, INPUT);
@@ -288,7 +287,7 @@
 
   function analogWrite(pin, val) {
     if (!hasCapability(pin, PWM)) {
-      alert('ERROR: valid PWM pins are ' + pinModes[PWM].join(', '));
+      console.log('ERROR: valid PWM pins are ' + pinModes[PWM].join(', '));
       return;
     }
     if (val < 0) val = 0;
@@ -306,7 +305,7 @@
 
   function digitalWrite(pin, val) {
     if (!hasCapability(pin, OUTPUT)) {
-      alert('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
+      console.log('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
       return;
     }
     var portNum = (pin >> 3) & 0x0F;
@@ -329,7 +328,7 @@
 
   function rotateServo(servo, deg) {
     if (!hasCapability(hwPins[servo], SERVO)) {
-      alert('ERROR: valid servo pins are ' + pinModes[SERVO].join(', '));
+      console.log('ERROR: valid servo pins are ' + pinModes[SERVO].join(', '));
       return;
     }
     if (deg < 0) deg = 0;
@@ -403,7 +402,7 @@
 
   ext.digitalLED = function(led, val) {
     if (!hasCapability(hwPins[led], OUTPUT)) {
-      alert('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
+      console.log('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
       return;
     }
     if (val == 'on')
