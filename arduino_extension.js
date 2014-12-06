@@ -59,28 +59,28 @@
   var pinModes = [];
   for (var i = 0; i < 7; i++) pinModes[i] = [];
   var hwPins = {
-    'servo 1': null,
-    'servo 2': null,
-    'servo 3': null,
-    'servo 4': null,
-    'led 1': null,
-    'led 2': null,
-    'led 3': null,
-    'led 4': null,
+    'servo A': null,
+    'servo B': null,
+    'servo C': null,
+    'servo D': null,
+    'led A': null,
+    'led B': null,
+    'led C': null,
+    'led D': null,
     'rotation knob': null,
     'light sensor': null,
     'temperature sensor': null,
-    'button 1': null,
-    'button 2': null,
-    'button 3': null,
-    'button 4': null
+    'button A': null,
+    'button B': null,
+    'button C': null,
+    'button D': null
   };
 
   var servoVals = {
-    'servo 1': 0,
-    'servo 2': 0,
-    'servo 3': 0,
-    'servo 4': 0
+    'servo A': 0,
+    'servo B': 0,
+    'servo C': 0,
+    'servo D': 0
   };
 
   var majorVersion = 0,
@@ -496,26 +496,26 @@
       ['r', 'read analog pin %n', 'analogRead', 0], 
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', 1, 'on'],
       ['h', 'when analog pin %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
-      [' ', 'connect %m.hwOut to pin %n', 'connectHW', 'servo 1', 3],
-      [' ', 'rotate %m.servos to %n degrees', 'rotateServo', 'servo 1', 180],
-      [' ', 'rotate %m.servos by %n degrees', 'changeServo', 'servo 1', 20],
-      [' ', 'turn %m.leds %m.outputs', 'digitalLED', 'led 1', 'on'],
-      [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led 1', 100],
+      [' ', 'connect %m.hwOut to pin %n', 'connectHW', 'servo A', 3],
+      [' ', 'rotate %m.servos to %n degrees', 'rotateServo', 'servo A', 180],
+      [' ', 'rotate %m.servos by %n degrees', 'changeServo', 'servo A', 20],
+      [' ', 'turn %m.leds %m.outputs', 'digitalLED', 'led A', 'on'],
+      [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led A', 100],
       [' ', 'connect %m.hwIn to analog pin %n', 'connectHW', 'rotation knob', 0],
       ['r', 'read %m.hwIn', 'readInput', 'rotation knob'],
       ['h', 'when %m.hwIn %m.ops %n%', 'whenInput', 'rotation knob', '>', 50],
-      [' ', 'connect %m.btns to pin %n', 'connectHW', 'button 1', 3],
-      ['b', '%m.buttons pressed?', 'isButtonPressed', 'button 1']
+      [' ', 'connect %m.btns to pin %n', 'connectHW', 'button A', 3],
+      ['b', '%m.buttons pressed?', 'isButtonPressed', 'button A']
     ],
     menus: {
-      btns: ['button 1', 'button 2', 'button 3', 'button 4'],
+      btns: ['button A', 'button B', 'button C', 'button D'],
       hwIn: ['rotation knob', 'light sensor', 'temperature sensor'],
-      hwOut: ['servo 1', 'servo 2', 'servo 3', 'servo 4', 'led 1', 'led 2', 'led 3', 'led 4'],
-      leds: ['led 1', 'led 2', 'led 3', 'led 4'],
+      hwOut: ['servo A', 'servo B', 'servo C', 'servo D', 'led A', 'led B', 'led C', 'led D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
       modes: ['OUTPUT', 'INPUT', 'PULL_UP'],
-      servos: ['servo 1', 'servo 2', 'servo 3', 'servo 4']
+      servos: ['servo A', 'servo B', 'servo C', 'servo D']
     },  
     url: 'http://arduino.cc'
   };
