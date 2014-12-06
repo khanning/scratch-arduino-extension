@@ -27,7 +27,9 @@
     ANALOG_MAPPING_QUERY = 0x69,
     ANALOG_MAPPING_RESPONSE = 0x6A,
     CAPABILITY_QUERY = 0x6B,
-    CAPABILITY_RESPONSE = 0x6C;
+    CAPABILITY_RESPONSE = 0x6C,
+    QUERY_PIN_STATE = 0x6D,
+    PIN_STATE_RESPONSE = 0x6E;
 
   var INPUT = 0x00,
     OUTPUT = 0x01,
@@ -87,15 +89,17 @@
     minorVersion = 0;
   
   var connected = false;
+  var hasCapabilities = false;
+  var hasAnalogMapping = false;
   var device = null;
   var inputData = null;
+  var poller = null;
+  var stateCheck = null;
 
   // TEMPORARY WORKAROUND
   // Since _deviceRemoved is not used with Serial devices
   // ping device regularly to check connection
-  var pinging = false;
   var pingCount = 0;
-  var pinger = null;
 
   function init() {
 
@@ -105,30 +109,22 @@
     }
 
     queryCapabilities();
+  }
 
-    // TEMPORARY WORKAROUND
-    // Since _deviceRemoved is not used with Serial devices
-    // ping device regularly to check connection
-    pinger = setInterval(function() {
-      if (pinging) {
-        if (++pingCount > 6) {
-          clearInterval(pinger);
-          pinger = null;
-          connected = false;
-          if (device) device.close();
-          device = null;
-          return;
-        }
-      } else {
-        if (!device) {
-          clearInterval(pinger);
-          pinger = null;
-          return;
-        }
-        queryFirmware();
-        pinging = true;
-      }
-    }, 100);
+  function ping() {
+    if (!device) {
+      clearInterval(poller);
+      poller = null;
+      return;
+    }
+    queryFirmware();
+    if (++pingCount > 10) {
+      clearInterval(poller);
+      poller = null;
+      connected = false;
+      if (device) device.close();
+      device = null;
+    }
   }
 
   function hasCapability(pin, mode) {
@@ -144,16 +140,34 @@
   }
  
   function queryCapabilities() {
-    console.log('Querying ' + device.id + ' capabilities');
-    var msg = new Uint8Array([
-        START_SYSEX, CAPABILITY_QUERY, END_SYSEX]);
-    device.send(msg.buffer);
+    var query = setInterval(function() {
+      if (hasCapabilities) {
+        clearInterval(query);
+        return;
+      }
+      console.log('Querying ' + device.id + ' capabilities');
+      var msg = new Uint8Array([
+          START_SYSEX, CAPABILITY_QUERY, END_SYSEX]);
+      device.send(msg.buffer);
+    }, 500);
   }
 
   function queryAnalogMapping() {
-    console.log('Querying ' + device.id + ' analog mapping');
+    var query = setInterval(function() {
+      if (hasAnalogMapping) {
+        clearInterval(query);
+        return;
+      }
+      console.log('Querying ' + device.id + ' analog mapping');
+      var msg = new Uint8Array([
+          START_SYSEX, ANALOG_MAPPING_QUERY, END_SYSEX]);
+      device.send(msg.buffer);
+    }, 500);
+  }
+
+  function queryPinState(pin) {
     var msg = new Uint8Array([
-        START_SYSEX, ANALOG_MAPPING_QUERY, END_SYSEX]);
+        START_SYSEX, QUERY_PIN_STATE, pin, END_SYSEX]);
     device.send(msg.buffer);
   }
 
@@ -173,6 +187,7 @@
   function processSysexMessage() {
     switch(storedInputData[0]) {
       case CAPABILITY_RESPONSE:
+        hasCapabilities = true;
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
           while (storedInputData[i++] != 0x7F) {
             pinModes[storedInputData[i-1]].push(pin);
@@ -184,6 +199,7 @@
         queryAnalogMapping();
         break;
       case ANALOG_MAPPING_RESPONSE:
+        hasAnalogMapping = true;
         for (var pin = 0; pin < analogChannel.length; pin++)
           analogChannel[pin] = 127;
         for (var i = 1; i < sysexBytesRead; i++)
@@ -195,6 +211,10 @@
             device.send(out.buffer);
           }
         }
+        // TEMPORARY WORKAROUND
+        // Since _deviceRemoved is not used with Serial devices
+        // ping device regularly to check connection
+        poller = setInterval(ping, 200);
         break;
       case QUERY_FIRMWARE:
         if (!connected) {
@@ -205,9 +225,17 @@
           connected = true;
           setTimeout(init, 200);
         }
-        pinging = false;
         pingCount = 0;
         break;
+      case PIN_STATE_RESPONSE:
+        var out = ""
+        for (var i=0; i < sysexBytesRead; i++)
+          out += storedInputData[i] + ", ";
+        var val = storedInputData[3];
+        if (storedInputData[4] != END_SYSEX)
+          val = (storedInputData[4] << 7) | val;
+        pinVals[storedInputData[1]] = val;
+        break; 
     }
   }
 
@@ -300,7 +328,20 @@
         val & 0x7F,
         val >> 7]);
     device.send(msg.buffer);
-    pinVals[pin] = val;
+    //pinVals[pin] = val;
+    queryPinState(pin);
+    
+    //console.log("setting to: " + val);
+    clearInterval(stateCheck);
+    stateCheck = setInterval(function() {
+      if (pinVals[pin] == val) {
+        clearInterval(stateCheck);
+        return;
+      }
+      pinMode(pin, PWM);
+      device.send(msg.buffer);
+      queryPinState(pin);
+    }, 10);
   }
 
   function digitalWrite(pin, val) {
@@ -311,11 +352,11 @@
     var portNum = (pin >> 3) & 0x0F;
     if (val == LOW) {
       if (pinVals[pin] == val) return;
-      pinVals[pin] = val;
+      //pinVals[pin] = val;
       digitalOutputData[portNum] &= ~(1 << (pin & 0x07));
     } else {
       if (pinVals[pin] == 255) return;
-      pinVals[pin] = 255;
+      //pinVals[pin] = 255;
       digitalOutputData[portNum] |= (1 << (pin & 0x07));
     }
     pinMode(pin, OUTPUT);
@@ -324,6 +365,17 @@
         digitalOutputData[portNum] & 0x7F,
         digitalOutputData[portNum] >> 0x07]);
     device.send(msg.buffer);
+    queryPinState(pin);
+   
+    clearInterval(stateCheck); 
+    stateCheck = setInterval(function() {
+      if (pinVals[pin] == val) {
+        clearInterval(stateCheck);
+        return;
+      }
+      device.send(msg.buffer);
+      queryPinState(pin);
+    }, 10);
   }
 
   function rotateServo(servo, deg) {
@@ -505,7 +557,7 @@
       ['b', 'pin %n on?', 'digitalRead', 1],
       ['h', 'when analog %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
       ['r', 'read analog %n', 'analogRead', 0]
-    ],  
+    ],
     menus: {
       hwIn: ['rotation knob', 'light sensor', 'temperature sensor'],
       hwOut: ['led A', 'led B', 'led C', 'led D', 'button A', 'button B', 'button C', 'button D', 'servo A', 'servo B', 'servo C', 'servo D'],
@@ -518,6 +570,6 @@
     url: 'http://arduino.cc'
   };
 
-  ScratchExtensions.register('Arduino', descriptor, ext, {type:'serial'});
+  ScratchExtensions.register('Windows Arduino Test', descriptor, ext, {type:'serial'});
 
 })({});
