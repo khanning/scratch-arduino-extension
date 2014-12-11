@@ -495,8 +495,8 @@
       [' ', 'turn %m.leds %m.outputs', 'digitalLED', 'led A', 'on'],
       [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led A', 100],
       [' ', 'rotate %m.servos to %n degrees', 'rotateServo', 'servo A', 180],
-      [' ', 'rotate %m.servos by %n degrees', 'changeServo', 'servo 1', 20],
-      ['b', '%m.buttons pressed?', 'isButtonPressed', 'button 1'],
+      [' ', 'rotate %m.servos by %n degrees', 'changeServo', 'servo A', 20],
+      ['b', '%m.buttons pressed?', 'isButtonPressed', 'button A'],
       ['h', 'when %m.hwIn %m.ops %n%', 'whenInput', 'rotation knob', '>', 50],
       ['r', 'read %m.hwIn', 'readInput', 'rotation knob'],
       [' ', 'turn pin %n %m.outputs', 'digitalWrite', 1, 'on'],
@@ -507,6 +507,7 @@
       ['r', 'read analog %n', 'analogRead', 0]
     ],  
     menus: {
+      buttons: ['button A', 'button B', 'button C', 'button D'],
       hwIn: ['rotation knob', 'light sensor', 'temperature sensor'],
       hwOut: ['led A', 'led B', 'led C', 'led D', 'button A', 'button B', 'button C', 'button D', 'servo A', 'servo B', 'servo C', 'servo D'],
       leds: ['led A', 'led B', 'led C', 'led D'],
