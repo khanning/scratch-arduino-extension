@@ -405,11 +405,21 @@
     hw.val = deg;
   };
 
-  ext.analogLED = function(led, val) {
+  ext.setLED = function(led, val) {
     var hw = hwList.search(led);
     if (!hw) return;
     analogWrite(hw.pin, val);
     hw.val = val;
+  };
+
+  ext.changeLED = function(led, val) {
+    var hw = hwList.search(led);
+    if (!hw) return;
+    var b = hw.val + val;
+    if (b < 0) b = 0;
+    else if (b > 100) b = 100;
+    analogWrite(hw.pin, b);
+    hw.val = b;
   };
 
   ext.digitalLED = function(led, val) {
@@ -508,7 +518,8 @@
       [' ', 'connect %m.hwIn to analog %n', 'connectHW', 'rotation knob', 0],
       ['-'],
       [' ', 'turn %m.leds %m.outputs', 'digitalLED', 'led A', 'on'],
-      [' ', 'set %m.leds brightness to %n%', 'analogLED', 'led A', 100],
+      [' ', 'set %m.leds brightness to %n%', 'setLED', 'led A', 100],
+      [' ', 'change %m.leds brightness by %n%', 'changeLED', 'led A', 20],
       ['-'],
       [' ', 'rotate %m.servos to %n degrees', 'rotateServo', 'servo A', 180],
       [' ', 'rotate %m.servos by %n degrees', 'changeServo', 'servo A', 20],
