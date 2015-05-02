@@ -55,38 +55,14 @@
     analogInputData = new Uint16Array(16);
 
   var analogChannel = new Uint8Array(MAX_PINS);
-  var pinVals = {};
   var pinModes = [];
   for (var i = 0; i < 7; i++) pinModes[i] = [];
-  var hwPins = {
-    'servo A': null,
-    'servo B': null,
-    'servo C': null,
-    'servo D': null,
-    'led A': null,
-    'led B': null,
-    'led C': null,
-    'led D': null,
-    'rotation knob': null,
-    'light sensor': null,
-    'temperature sensor': null,
-    'button A': null,
-    'button B': null,
-    'button C': null,
-    'button D': null
-  };
-
-  var servoVals = {
-    'servo A': 0,
-    'servo B': 0,
-    'servo C': 0,
-    'servo D': 0
-  };
 
   var majorVersion = 0,
     minorVersion = 0;
   
   var connected = false;
+  var notifyConnection = false;
   var device = null;
   var inputData = null;
 
@@ -96,6 +72,31 @@
   var pinging = false;
   var pingCount = 0;
   var pinger = null;
+
+  var hwList = new HWList();
+
+  function HWList() {
+    this.devices = []
+
+    this.add = function(dev, pin) {
+      var device = this.search(dev);
+      if (!device) {
+        device = {name: dev, pin: pin, val: 0};
+        this.devices.push(device);
+      } else {
+        device.pin = pin;
+        device.val = 0;
+      }
+    };
+
+    this.search = function(dev) {
+      for (var i=0; i<this.devices.length; i++) {
+        if (this.devices[i].name === dev)
+          return this.devices[i];
+      }
+      return null;
+    };
+  }
 
   function init() {
 
@@ -178,7 +179,6 @@
             pinModes[storedInputData[i-1]].push(pin);
             i++; //Skip mode resolution
           }
-          pinVals[pin] = 0;
           if (i == sysexBytesRead) break;
         }
         queryAnalogMapping();
@@ -195,6 +195,10 @@
             device.send(out.buffer);
           }
         }
+        notifyConnection = true;
+        setTimeout(function() {
+          notifyConnection = false;
+        }, 100);
         break;
       case QUERY_FIRMWARE:
         if (!connected) {
@@ -293,14 +297,12 @@
     if (val < 0) val = 0;
     else if (val > 100) val = 100
     val = Math.round((val / 100) * 255);
-    if (pinVals[pin] == val) return;
     pinMode(pin, PWM);
     var msg = new Uint8Array([
         ANALOG_MESSAGE | (pin & 0x0F),
         val & 0x7F,
         val >> 7]);
     device.send(msg.buffer);
-    pinVals[pin] = val;
   }
 
   function digitalWrite(pin, val) {
@@ -309,15 +311,10 @@
       return;
     }
     var portNum = (pin >> 3) & 0x0F;
-    if (val == LOW) {
-      if (pinVals[pin] == val) return;
-      pinVals[pin] = val;
+    if (val == LOW)
       digitalOutputData[portNum] &= ~(1 << (pin & 0x07));
-    } else {
-      if (pinVals[pin] == 255) return;
-      pinVals[pin] = 255;
+    else
       digitalOutputData[portNum] |= (1 << (pin & 0x07));
-    }
     pinMode(pin, OUTPUT);
     var msg = new Uint8Array([
         DIGITAL_MESSAGE | portNum,
@@ -326,24 +323,22 @@
     device.send(msg.buffer);
   }
 
-  function rotateServo(servo, deg) {
-    if (!hasCapability(hwPins[servo], SERVO)) {
+  function rotateServo(pin, deg) {
+    if (!hasCapability(pin, SERVO)) {
       console.log('ERROR: valid servo pins are ' + pinModes[SERVO].join(', '));
       return;
     }
-    if (deg < 0) deg = 0;
-    else if (deg > 180) deg = 180;
-    pinMode(hwPins[servo], SERVO);
+    pinMode(pin, SERVO);
     var msg = new Uint8Array([
-        ANALOG_MESSAGE | (hwPins[servo] & 0x0F),
+        ANALOG_MESSAGE | (pin & 0x0F),
         deg & 0x7F,
         deg >> 0x07]);
     device.send(msg.buffer);
-    servoVals[servo] = deg;
   }
 
-  ext.isConnected = function() {
-    return connected;
+  ext.whenConnected = function() {
+    if (notifyConnection) return true;
+    return false;
   };
 
   ext.analogWrite = function(pin, val) {
@@ -388,48 +383,67 @@
   };
 
   ext.connectHW = function(hw, pin) {
-    hwPins[hw] = pin;
+    hwList.add(hw, pin);
   };
 
   ext.rotateServo = function(servo, deg) {
-    rotateServo(servo, deg);
+    var hw = hwList.search(servo);
+    if (!hw) return;
+    if (deg < 0) deg = 0;
+    else if (deg > 180) deg = 180;
+    rotateServo(hw.pin, deg);
+    hw.val = deg;
   };
 
   ext.changeServo = function(servo, change) {
-    var deg = servoVals[servo] + change;
-    rotateServo(servo, deg);
-  };
-
-  ext.digitalLED = function(led, val) {
-    if (!hasCapability(hwPins[led], OUTPUT)) {
-      console.log('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
-      return;
-    }
-    if (val == 'on')
-      digitalWrite(hwPins[led], HIGH);
-    else if (val == 'off')
-      digitalWrite(hwPins[led], LOW);
+    var hw = hwList.search(servo);
+    if (!hw) return;
+    var deg = hw.val + change;
+    if (deg < 0) deg = 0;
+    else if (deg > 180) deg = 180;
+    rotateServo(hw.pin, deg);
+    hw.val = deg;
   };
 
   ext.analogLED = function(led, val) {
-    analogWrite(hwPins[led], val);
+    var hw = hwList.search(led);
+    if (!hw) return;
+    analogWrite(hw.pin, val);
+    hw.val = val;
+  };
+
+  ext.digitalLED = function(led, val) {
+    var hw = hwList.search(led);
+    if (!hw) return;
+    if (val == 'on') {
+      digitalWrite(hw.pin, HIGH);
+      hw.val = 255;
+    } else if (val == 'off') {
+      digitalWrite(hw.pin, LOW);
+      hw.val = 0;
+    }
   };
   
-  ext.readInput = function(hw) {
-    return analogRead(hwPins[hw]);
+  ext.readInput = function(name) {
+    var hw = hwList.search(name);
+    if (!hw) return;
+    return analogRead(hw.pin);
   };
 
   ext.isButtonPressed = function(btn) {
-    return digitalRead(hwPins[btn]);
+    var hw = hwList.search(btn);
+    return digitalRead(hw.pin);
   };
 
-  ext.whenInput = function(hw, op, val) {
+  ext.whenInput = function(name, op, val) {
+    var hw = hwList.search(name);
+    if (!hw) return;
     if (op == '>')
-      return analogRead(hwPins[hw]) > val;
+      return analogRead(hw.pin) > val;
     else if (op == '<')
-      return analogRead(hwPins[hw]) < val;
+      return analogRead(hw.pin) < val;
     else if (op == '=')
-      return analogRead(hwPins[hw]) == val;
+      return analogRead(hw.pin) == val;
     else
       return false;
   };
@@ -489,7 +503,7 @@
 
   var descriptor = {
     blocks: [
-      ['h', 'when device is connected', 'isConnected'],
+      ['h', 'when device is connected', 'whenConnected'],
       [' ', 'connect %m.hwOut to pin %n', 'connectHW', 'led A', 3],
       [' ', 'connect %m.hwIn to analog %n', 'connectHW', 'rotation knob', 0],
       [' ', 'turn %m.leds %m.outputs', 'digitalLED', 'led A', 'on'],
