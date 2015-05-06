@@ -440,8 +440,18 @@
     return analogRead(hw.pin);
   };
 
+  ext.whenButton = function(btn, state) {
+    var hw = hwList.search(btn);
+    if (!hw) return;
+    if (state === 'pressed')
+      return digitalRead(hw.pin);
+    else if (state === 'released')
+      return !digitalRead(hw.pin);
+  };
+
   ext.isButtonPressed = function(btn) {
     var hw = hwList.search(btn);
+    if (!hw) return;
     return digitalRead(hw.pin);
   };
 
@@ -524,6 +534,7 @@
       [' ', 'rotate %m.servos to %n degrees', 'rotateServo', 'servo A', 180],
       [' ', 'rotate %m.servos by %n degrees', 'changeServo', 'servo A', 20],
       ['-'],
+      ['h', 'when %m.buttons is %m.btnStates', 'whenButton', 'button A', 'pressed'],
       ['b', '%m.buttons pressed?', 'isButtonPressed', 'button A'],
       ['-'],
       ['h', 'when %m.hwIn %m.ops %n%', 'whenInput', 'rotation knob', '>', 50],
@@ -540,6 +551,7 @@
     ],  
     menus: {
       buttons: ['button A', 'button B', 'button C', 'button D'],
+      btnStates: ['pressed', 'released'],
       hwIn: ['rotation knob', 'light sensor', 'temperature sensor'],
       hwOut: ['led A', 'led B', 'led C', 'led D', 'button A', 'button B', 'button C', 'button D', 'servo A', 'servo B', 'servo C', 'servo D'],
       leds: ['led A', 'led B', 'led C', 'led D'],
