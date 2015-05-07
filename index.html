@@ -1,0 +1,102 @@
+<html>
+<head><title>Scratch Arduino Extension</title></head>
+<style>
+.component { display: inline-block; vertical-align: top; margin-right: 20px; }
+</style>
+<body>
+
+<h1>Scratch Arduino Extension</h1>
+
+<p>This <a href="https://scratch.mit.edu">Scratch</a> extension lets you interact with the physical world using an <a href="http://www.arduino.cc/">Arduino</a> board. For example, you can control lights and motors or measure light and temperature. The extension communicates with an Arduino board running the <a href="https://github.com/firmata/arduino">Firmata firmware</a>.</p>
+
+<img width="500" height="500" src="images/grove.jpg" /><br /><em>Arduino board with a Grove LED, button, and temperature sensor.</em>
+
+<h1>Equipment</h1>
+
+<p>You need:</p>
+
+<dl>
+<dt>Arduino board</dt>
+<dd>Like the <a href="http://www.arduino.cc/en/Main/ArduinoBoardUno">Arduino Uno</a>.</dd>
+<dt>USB Cable</dt>
+<dd>Full-sized</dd>
+<dt>Electronic components</dt>
+<dd>We recommend the <a href="http://www.seeedstudio.com/depot/Grove-Starter-Kit-for-Arduino-p-1855.html">Grove starter kit for Arduino</a> (made by Seeed Studio). You can <a href="https://www.makershed.com/products/grove-starter-kit-plus">buy it from Maker Shed</a> in the U.S. For other options, see <a href="#circuits">working with basic electronic components</a> below.</dd>
+
+<h1>Getting Started</h1>
+
+<ol>
+<li>Download and install the <a href="http://www.arduino.cc/en/Main/Software">Arduino software</a> (<a href="http://www.arduino.cc/en/Guide/Windows">Windows instructions</a>, <a href="http://www.arduino.cc/en/Guide/MacOSX">Mac instructions</a>)</li>
+<li>Connect the Arduino to your computer's USB port</li>
+<li>Open the Arduino software<br /><img src="images/arduino.png" /></li>
+<li>Go to <b>File &gt; Examples &gt; Firmata &gt; Standard Firmata</b><br /><img src="images/firmata.png" /></li>
+<li>Select your Arduino board from the <b>Tools &gt; Board</b> menu<br /><img src="images/arduino-board.png" /></li>
+<li>Select your serial port from the <b>Tools &gt; Port</b> menu.<br />On Mac, it's something like <b>/dev/tty.usbmodem-1511</b>.<br />On Windows, it's probably the highest-numbered COM port.<br />(Or unplug the Arduino, check the menu, and then replug your Arduino and see what new port appears.)<br /><img src="images/arduino-port.png" /></li>
+<li>Click the upload button<br /><img src="images/arduino-upload.png" /></li>
+<li>Download and install the <a href="http://scratch.mit.edu/scratchr2/static/ext/download.html">Scratch Browser Plugin</a></li>
+<li>Load the Arduino extension on ScratchX.</li>
+</ol>
+
+<h1>Grove Modules</h1>
+
+<h2>Grove Base Shield</h2>
+
+<img width="350" src="images/grove-shield.jpg" />
+
+<p>The <a href="http://www.seeedstudio.com/depot/Base-Shield-V2-p-1378.html">Grove Base Shield (V2)</a> connects your Arduino board to the other Grove modules. It has different kinds of connections:</p>
+<dl>
+<dt>A0, A1, A2, A3</dt>
+<dd>Analog inputs that read from sensors, like the light sensor, temperature sensor, and rotation knob.</dd>
+<dt>D2, D3, D4, D5, D6, D7, D8</dt>
+<dd>Digital connections that control LEDs and servo motors and read from push buttons. To fade an LED (not just turn it on and off), use D3, D5, or D6.</dd>
+<dt>I2C and UART</dt>
+<dd>These are more complex connections that we don't use in the extension yet.</dd>
+</dl>
+<p>To connect a module to the shield, plug one of the Grove cables into the white connector on the module and one of the connectors on the shield. The cable only goes into the connector one way.</p>
+
+<div class="component">
+<h2>Grove Button</h2>
+<img height="190" src="images/grove-button.jpg" />
+<p>A button you can press</p>
+</div>
+
+<div class="component">
+<h2>Grove Light Sensor</h2>
+<img height="190" src="images/grove-light-sensor.jpg" />
+<p>Measures light</p>
+</div>
+
+<div class="component">
+<h2>Grove Rotation Knob</h2>
+<img height="190" src="images/grove-rotation-knob.jpg" />
+<p>Control things by rotating the knob</p>
+</div>
+
+<div class="component">
+<h2>Grove Temperature Sensor</h2>
+<img height="190" src="images/grove-temperature-sensor.jpg" />
+<p>Measures temperature</p>
+</div>
+
+<div class="component">
+<h2>Grove LED</h2>
+<img height="190" src="images/grove-led.jpg" />
+<p>A small light</p>
+</div>
+
+<div class="component">
+<h2>Grove Servo Motor</h2>
+<img height="190" src="images/grove-servo-motor.jpg" />
+<p>Moves its arm back and forth</p>
+</div>
+
+
+
+
+
+
+<a name="circuits" />
+<h1>Working w/ Basic Electronic Components</h1>
+
+</body>
+</html>
