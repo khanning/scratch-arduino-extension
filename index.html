@@ -1,102 +1,259 @@
 <html>
-<head><title>Scratch Arduino Extension</title></head>
-<style>
-.component { display: inline-block; vertical-align: top; margin-right: 20px; }
-</style>
+<head>
+<title>Scratch Arduino Extension</title>
+<link rel="stylesheet" type="text/css" href="style.css"></link>
+</head>
 <body>
 
-<h1>Scratch Arduino Extension</h1>
+<div id="content-container">
 
-<p>This <a href="https://scratch.mit.edu">Scratch</a> extension lets you interact with the physical world using an <a href="http://www.arduino.cc/">Arduino</a> board. For example, you can control lights and motors or measure light and temperature. The extension communicates with an Arduino board running the <a href="https://github.com/firmata/arduino">Firmata firmware</a>.</p>
+  <h1>Scratch Arduino Extension</h1>
 
-<img width="500" height="500" src="images/grove.jpg" /><br /><em>Arduino board with a Grove LED, button, and temperature sensor.</em>
+  <h2>Contents</h2>
 
-<h1>Equipment</h1>
+  <ul id="nav">
+    <li><a href="#intro">Introduction</a></li>
+    <li><a href="#equipment">Equipment</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#grove">Grove Modules</a></li>
+    <li><a href="#circuits">Working w/ Basic Electronic Components</a></li>
+    <li><a href="#blocks">Scratch Blocks</a></li>
+  </ul>
 
-<p>You need:</p>
+  <a name="intro" />
+  <h2>Introduction</h2>
 
-<dl>
-<dt>Arduino board</dt>
-<dd>Like the <a href="http://www.arduino.cc/en/Main/ArduinoBoardUno">Arduino Uno</a>.</dd>
-<dt>USB Cable</dt>
-<dd>Full-sized</dd>
-<dt>Electronic components</dt>
-<dd>We recommend the <a href="http://www.seeedstudio.com/depot/Grove-Starter-Kit-for-Arduino-p-1855.html">Grove starter kit for Arduino</a> (made by Seeed Studio). You can <a href="https://www.makershed.com/products/grove-starter-kit-plus">buy it from Maker Shed</a> in the U.S. For other options, see <a href="#circuits">working with basic electronic components</a> below.</dd>
+  <p>This <a href="https://scratch.mit.edu">Scratch</a> extension lets you interact with the physical world using an <a href="http://www.arduino.cc/">Arduino</a> board. For example, you can control lights and motors or measure light and temperature. The extension communicates with an Arduino board running the <a href="https://github.com/firmata/arduino">Firmata firmware</a>.</p>
 
-<h1>Getting Started</h1>
+  <img width="500" height="500" src="images/grove.jpg" /><br /><em>Arduino board with a Grove LED, button, and temperature sensor.</em>
 
-<ol>
-<li>Download and install the <a href="http://www.arduino.cc/en/Main/Software">Arduino software</a> (<a href="http://www.arduino.cc/en/Guide/Windows">Windows instructions</a>, <a href="http://www.arduino.cc/en/Guide/MacOSX">Mac instructions</a>)</li>
-<li>Connect the Arduino to your computer's USB port</li>
-<li>Open the Arduino software<br /><img src="images/arduino.png" /></li>
-<li>Go to <b>File &gt; Examples &gt; Firmata &gt; Standard Firmata</b><br /><img src="images/firmata.png" /></li>
-<li>Select your Arduino board from the <b>Tools &gt; Board</b> menu<br /><img src="images/arduino-board.png" /></li>
-<li>Select your serial port from the <b>Tools &gt; Port</b> menu.<br />On Mac, it's something like <b>/dev/tty.usbmodem-1511</b>.<br />On Windows, it's probably the highest-numbered COM port.<br />(Or unplug the Arduino, check the menu, and then replug your Arduino and see what new port appears.)<br /><img src="images/arduino-port.png" /></li>
-<li>Click the upload button<br /><img src="images/arduino-upload.png" /></li>
-<li>Download and install the <a href="http://scratch.mit.edu/scratchr2/static/ext/download.html">Scratch Browser Plugin</a></li>
-<li>Load the Arduino extension on ScratchX.</li>
-</ol>
+  <a name="equipment" />
+  <h2>Equipment</h2>
 
-<h1>Grove Modules</h1>
+  <p>You need:</p>
 
-<h2>Grove Base Shield</h2>
+  <dl>
+  <dt>Arduino board</dt>
+  <dd>Like the <a href="http://www.arduino.cc/en/Main/ArduinoBoardUno">Arduino Uno</a>.</dd>
+  <dt>USB Cable</dt>
+  <dd>Full-sized</dd>
+  <dt>Electronic components</dt>
+  <dd>We recommend the <a href="http://www.seeedstudio.com/depot/Grove-Starter-Kit-for-Arduino-p-1855.html">Grove starter kit for Arduino</a> (made by Seeed Studio). You can <a href="https://www.makershed.com/products/grove-starter-kit-plus">buy it from Maker Shed</a> in the U.S. For other options, see <a href="#circuits">working with basic electronic components</a> below.</dd>
 
-<img width="350" src="images/grove-shield.jpg" />
+  <a name="getting-started" />
+  <h2>Getting Started</h2>
 
-<p>The <a href="http://www.seeedstudio.com/depot/Base-Shield-V2-p-1378.html">Grove Base Shield (V2)</a> connects your Arduino board to the other Grove modules. It has different kinds of connections:</p>
-<dl>
-<dt>A0, A1, A2, A3</dt>
-<dd>Analog inputs that read from sensors, like the light sensor, temperature sensor, and rotation knob.</dd>
-<dt>D2, D3, D4, D5, D6, D7, D8</dt>
-<dd>Digital connections that control LEDs and servo motors and read from push buttons. To fade an LED (not just turn it on and off), use D3, D5, or D6.</dd>
-<dt>I2C and UART</dt>
-<dd>These are more complex connections that we don't use in the extension yet.</dd>
-</dl>
-<p>To connect a module to the shield, plug one of the Grove cables into the white connector on the module and one of the connectors on the shield. The cable only goes into the connector one way.</p>
+  <ol>
+  <li>Download and install the <a href="http://www.arduino.cc/en/Main/Software">Arduino software</a> (<a href="http://www.arduino.cc/en/Guide/Windows">Windows instructions</a>, <a href="http://www.arduino.cc/en/Guide/MacOSX">Mac instructions</a>)</li>
+  <li>Connect the Arduino to your computer's USB port</li>
+  <li>Open the Arduino software<br /><img src="images/arduino.png" /></li>
+  <li>Go to <b>File &gt; Examples &gt; Firmata &gt; Standard Firmata</b><br /><img src="images/firmata.png" height=500 /></li>
+  <li>Select your Arduino board from the <b>Tools &gt; Board</b> menu<br /><img src="images/arduino-board.png" /></li>
+  <li>Select your serial port from the <b>Tools &gt; Port</b> menu.<br />On Mac, it's something like <b>/dev/tty.usbmodem-1511</b>.<br />On Windows, it's probably the highest-numbered COM port.<br />(Or unplug the Arduino, check the menu, and then replug your Arduino and see what new port appears.)<br /><img src="images/arduino-port.png" /></li>
+  <li>Click the upload button<br /><img src="images/arduino-upload.png" /></li>
+  <li>Download and install the <a href="http://scratch.mit.edu/scratchr2/static/ext/download.html">Scratch Browser Plugin</a></li>
+  <li>Load the Arduino extension on ScratchX.</li>
+  </ol>
 
-<div class="component">
-<h2>Grove Button</h2>
-<img height="190" src="images/grove-button.jpg" />
-<p>A button you can press</p>
+  <a name="grove" />
+  <h2>Grove Modules</h2>
+
+  <h3>Grove Base Shield</h3>
+
+  <img width="350" src="images/grove-shield.jpg" />
+
+  <p>The <a href="http://www.seeedstudio.com/depot/Base-Shield-V2-p-1378.html">Grove Base Shield (V2)</a> connects your Arduino board to the other Grove modules. It has different kinds of connections:</p>
+  <dl>
+  <dt>A0, A1, A2, A3</dt>
+  <dd>Analog inputs that read from sensors, like the light sensor, temperature sensor, and rotation knob.</dd>
+  <dt>D2, D3, D4, D5, D6, D7, D8</dt>
+  <dd>Digital connections that control LEDs and servo motors and read from push buttons. To fade an LED (not just turn it on and off), use D3, D5, or D6.</dd>
+  <dt>I2C and UART</dt>
+  <dd>These are more complex connections that we don't use in the extension yet.</dd>
+  </dl>
+  <p>To connect a module to the shield, plug one of the Grove cables into the white connector on the module and one of the connectors on the shield. The cable only goes into the connector one way.</p>
+
+  <div class="component">
+  <h3>Grove Button</h3>
+  <img height="190" src="images/grove-button.jpg" />
+  <p>A button you can press</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove Light Sensor</h3>
+  <img height="190" src="images/grove-light-sensor.jpg" />
+  <p>Measures light</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove Rotation Knob</h3>
+  <img height="190" src="images/grove-rotation-knob.jpg" />
+  <p>Control things by rotating the knob</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove Temperature Sensor</h3>
+  <img height="190" src="images/grove-temperature-sensor.jpg" />
+  <p>Measures temperature</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove LED</h3>
+  <img height="190" src="images/grove-led.jpg" />
+  <p>A small light</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove Servo Motor</h3>
+  <img height="190" src="images/grove-servo-motor.jpg" />
+  <p>Moves its arm back and forth</p>
+  </div>
+
+
+
+
+
+
+  <a name="circuits" />
+  <h1>Working w/ Basic Electronic Components</h1>
+
+  <a name="blocks" />
+  <h1>Scratch Blocks</h1>
+
+  <div class="block">
+  <img height="52" src="images/blocks/device-connected.png" />
+  <p>Runs when the device is connected</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/led-connect.png" />
+  <p>Connects an LED, button, or servo to a digital connection (D2, D3, D4, D5, D6, D7, D8).</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/sensor-connect.png" />
+  <p>Connects a rotation knob, light sensor, or temperature sensor to an analog connection (A0, A1, A2, A3).
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/led-digital.png" />
+  <p>Turns an LED on or off.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/led-set.png" />
+  <p>Sets an LED to a specified brightness from 0 - 100%.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/led-change.png" />
+  <p>Changes the current LED brightness by a specified amount.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/servo-set.png" />
+  <p>Rotates a servo to a specified location from 0 - 180 degrees.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/servo-change.png" />
+  <p>Changes a servo's current rotation by a specified amount.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="52" src="images/blocks/button-when.png" />
+  <p>Runs when a button is pressed or released.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="34" src="images/blocks/button-boolean.png" />
+  <p>Checks if a button is currently pressed.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="52" src="images/blocks/sensor-when.png" />
+  <p>Runs when a rotation knob, light sensor, or temperator sensor meet a certain condition.<p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="32" src="images/blocks/sensor-read.png" />
+  <p>Reads the current value of a rotation knob, light sensor, or temperature sensor. Value will be between 0 - 100.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/pin-write-digital.png" />
+  <p>Turns a digital connection (D2, D3, D4, D5, D6, D7, D8) on or off.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="39" src="images/blocks/pin-write-analog.png" />
+  <p>Sets a capable digital connection (D3, D5, D6) to a value from 0 - 100%.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="52" src="images/blocks/pin-when-digital.png" />
+  </p>Runs when a digital connection (D2, D3, D4, D5, D6, D7, D8) is turned on or off.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="34" src="images/blocks/pin-read-digital.png" />
+  <p>Checks if a digital connection (D2, D3, D4, D5, D6, D7, D8) is on or off.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="52" src="images/blocks/pin-when-analog.png" />
+  </p>Runs when an analog connection (A0, A1, A2, A3) meets a certain condition.</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="34" src="images/blocks/pin-read-analog.png" />
+  <p>Checks the current value of an analog connection (A0, A1, A2, A3).</p>
+  </div>
+
+  <hr />
+
+  <div class="block">
+  <img height="34" src="images/blocks/map.png" />
+  <p>Maps a value between two ranges of numbers. This example might be used to map an analog sensor's value (0 to 100) to a sprite's x position (-240 to 240).</p> 
+  </div>
+
 </div>
 
-<div class="component">
-<h2>Grove Light Sensor</h2>
-<img height="190" src="images/grove-light-sensor.jpg" />
-<p>Measures light</p>
-</div>
-
-<div class="component">
-<h2>Grove Rotation Knob</h2>
-<img height="190" src="images/grove-rotation-knob.jpg" />
-<p>Control things by rotating the knob</p>
-</div>
-
-<div class="component">
-<h2>Grove Temperature Sensor</h2>
-<img height="190" src="images/grove-temperature-sensor.jpg" />
-<p>Measures temperature</p>
-</div>
-
-<div class="component">
-<h2>Grove LED</h2>
-<img height="190" src="images/grove-led.jpg" />
-<p>A small light</p>
-</div>
-
-<div class="component">
-<h2>Grove Servo Motor</h2>
-<img height="190" src="images/grove-servo-motor.jpg" />
-<p>Moves its arm back and forth</p>
-</div>
-
-
-
-
-
-
-<a name="circuits" />
-<h1>Working w/ Basic Electronic Components</h1>
+<br />
 
 </body>
 </html>
