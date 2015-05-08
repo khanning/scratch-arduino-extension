@@ -541,7 +541,7 @@
       ['r', 'read %m.hwIn', 'readInput', 'rotation knob'],
       ['-'],
       [' ', 'turn pin %n %m.outputs', 'digitalWrite', 1, 'on'],
-      [' ', 'set pin %n to %n%', 'analogWrite', 9, 100],
+      [' ', 'set pin %n to %n%', 'analogWrite', 3, 100],
       ['-'],
       ['h', 'when pin %n is %m.outputs', 'whenDigitalRead', 1, 'on'],
       ['b', 'pin %n on?', 'digitalRead', 1],
