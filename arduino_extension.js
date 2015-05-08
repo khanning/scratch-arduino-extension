@@ -467,6 +467,11 @@
     else
       return false;
   };
+
+  ext.mapValues = function(val, aMin, aMax, bMin, bMax) {
+    var output = (((bMax - bMin) * (val - aMin)) / (aMax - aMin)) + bMin;
+    return Math.round(output);
+  };
  
   ext._getStatus = function() {
     if (!connected)
@@ -547,7 +552,9 @@
       ['b', 'pin %n on?', 'digitalRead', 1],
       ['-'],
       ['h', 'when analog %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
-      ['r', 'read analog %n', 'analogRead', 0]
+      ['r', 'read analog %n', 'analogRead', 0],
+      ['-'],
+      ['r', 'map %n from %n %n to %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],  
     menus: {
       buttons: ['button A', 'button B', 'button C', 'button D'],
