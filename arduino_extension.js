@@ -560,7 +560,7 @@
       modes: ['OUTPUT', 'INPUT', 'PULL_UP'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     },  
-    url: 'http://arduino.cc'
+    url: 'http://khanning.github.io/scratch-arduino-extension'
   };
 
   ScratchExtensions.register('Arduino', descriptor, ext, {type:'serial'});
