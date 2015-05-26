@@ -526,8 +526,18 @@
     device = null;
   };
 
-  var descriptor = {
-    blocks: [
+  // Check for GET param 'lang'
+  var paramString = window.location.search.replace(/^\?|\/$/g, '');
+  var vars = paramString.split("&");
+  var lang = 'en';
+  for (var i=0; i<vars.length; i++) {
+    var pair = vars[i].split('=');
+    if (pair.length > 1 && pair[0]=='lang')
+      lang = pair[1];
+  }
+
+  var blocks = {
+    en: [
       ['h', 'when device is connected', 'whenConnected'],
       [' ', 'connect %m.hwOut to pin %n', 'connectHW', 'led A', 3],
       [' ', 'connect %m.hwIn to analog %n', 'connectHW', 'rotation knob', 0],
@@ -555,8 +565,40 @@
       ['r', 'read analog %n', 'analogRead', 0],
       ['-'],
       ['r', 'map %n from %n %n to %n %n', 'mapValues', 50, 0, 100, -240, 240]
-    ],  
-    menus: {
+    ],
+    de: [
+      ['h', 'Wenn Arduino verbunden ist', 'whenConnected'],
+      [' ', 'Verbinde %m.hwOut mit Pin %n', 'connectHW', 'LED A', 3],
+      [' ', 'Verbinde %m.hwIn mit Analog %n', 'connectHW', 'Drehknopf', 0],
+      ['-'],
+      [' ', 'Schalte %m.leds %m.outputs', 'digitalLED', 'LED A', 'Ein'],
+      [' ', 'Setze %m.leds Helligkeit auf %n%', 'setLED', 'LED A', 100],
+      [' ', 'Ändere %m.leds Helligkeit um %n%', 'changeLED', 'LED A', 20],
+      ['-'],
+      [' ', 'Drehe %m.servos auf %n Grad', 'rotateServo', 'Servo A', 180],
+      [' ', 'Drehe %m.servos um %n Grad', 'changeServo', 'Servo A', 20],
+      ['-'],
+      ['h', 'Wenn %m.buttons ist %m.btnStates', 'whenButton', 'Taste A', 'gedrückt'],
+      ['b', '%m.buttons gedrückt?', 'isButtonPressed', 'Taste A'],
+      ['-'],
+      ['h', 'Wenn %m.hwIn %m.ops %n%', 'whenInput', 'Drehknopf', '>', 50],
+      ['r', 'Wert von %m.hwIn', 'readInput', 'Drehknopf'],
+      ['-'],
+      [' ', 'Schalte Pin %n %m.outputs', 'digitalWrite', 1, 'Ein'],
+      [' ', 'Setze Pin %n auf %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'Wenn Pin %n ist %m.outputs', 'whenDigitalRead', 1, 'Ein'],
+      ['b', 'Pin %n ein?', 'digitalRead', 1],
+      ['-'],
+      ['h', 'Wenn Analog %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'Wert von Analog %n', 'analogRead', 0],
+      ['-'],
+      ['r', 'Setze %n von %n %n auf %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ]
+  };
+
+  var menus = {
+    en: {
       buttons: ['button A', 'button B', 'button C', 'button D'],
       btnStates: ['pressed', 'released'],
       hwIn: ['rotation knob', 'light sensor', 'temperature sensor'],
@@ -566,6 +608,21 @@
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     },  
+    de: {
+      buttons: ['Taste A', 'Taste B', 'Taste C', 'Taste D'],
+      btnStates: ['gedrückt', 'losgelassen'],
+      hwIn: ['Drehknopf', 'Lichtsensor', 'Temperatursensor'],
+      hwOut: ['LED A', 'LED B', 'LED C', 'LED D', 'Taste A', 'Taste B', 'Taste C', 'Taste D', 'Servo A', 'Servo B', 'Servo C', 'Servo D'],
+      leds: ['LED A', 'LED B', 'LED C', 'LED D'],
+      outputs: ['Ein', 'Aus'],
+      ops: ['>', '=', '<'],
+      servos: ['Servo A', 'Servo B', 'Servo C', 'Servo D']
+    }
+  };
+
+  var descriptor = {
+    blocks: blocks[lang],
+    menus: menus[lang],
     url: 'http://khanning.github.io/scratch-arduino-extension'
   };
 
