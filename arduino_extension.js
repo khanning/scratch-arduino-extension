@@ -594,6 +594,35 @@
       ['r', 'Wert von Analog %n', 'analogRead', 0],
       ['-'],
       ['r', 'Setze %n von %n %n auf %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ],
+    nl: [
+      ['h', 'als het apparaat verbonden is', 'whenConnected'],
+      [' ', 'verbindt %m.hwOut met pin %n', 'connectHW', 'led A', 3],
+      [' ', 'verbindt %m.hwIn met analoog %n', 'connectHW', 'draaiknop', 0],
+      ['-'],
+      [' ', 'schakel %m.leds %m.outputs', 'digitalLED', 'led A', 'on'],
+      [' ', 'schakel %m.leds helderheid tot %n%', 'setLED', 'led A', 100],
+      [' ', 'verander %m.leds helderheid met %n%', 'changeLED', 'led A', 20],
+      ['-'],
+      [' ', 'draai %m.servos tot %n graden', 'rotateServo', 'servo A', 180],
+      [' ', 'draai %m.servos met %n graden', 'changeServo', 'servo A', 20],
+      ['-'],
+      ['h', 'wanneer %m.buttons is %m.btnStates', 'whenButton', 'knop A', 'in gedrukt'],
+      ['b', '%m.knoppen in gedrukt?', 'isButtonPressed', 'knoppen A'],
+      ['-'],
+      ['h', 'wanneer%m.hwIn %m.ops %n%', 'whenInput', 'draaiknop', '>', 50],
+      ['r', 'read %m.hwIn', 'readInput', 'draaiknop'],
+      ['-'],
+      [' ', 'schakel pin %n %m.outputs', 'digitalWrite', 1, 'on'],
+      [' ', 'schakel pin %n tot %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'wanneer pin %n is %m.outputs', 'whenDigitalRead', 1, 'on'],
+      ['b', 'pin %n aan?', 'digitalRead', 1],
+      ['-'],
+      ['h', 'wanneer analoge %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'lees analoge %n', 'analogRead', 0],
+      ['-'],
+      ['r', 'zet %n van %n %n tot %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ]
   };
 
@@ -617,6 +646,16 @@
       outputs: ['Ein', 'Aus'],
       ops: ['>', '=', '<'],
       servos: ['Servo A', 'Servo B', 'Servo C', 'Servo D']
+    },
+    nl: {
+      buttons: ['knop A', 'knop B', 'knop C', 'knop D'],
+      btnStates: ['ingedrukt', 'losgelaten'],
+      hwIn: ['draaiknop', 'licht sensor', 'temperatuur sensor'],
+      hwOut: ['led A', 'led B', 'led C', 'led D', 'knop A', 'knop B', 'knop C', 'knop D', 'servo A', 'servo B', 'servo C', 'servo D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
+      outputs: ['aan', 'uit'],
+      ops: ['>', '=', '<'],
+      servos: ['servo A', 'servo B', 'servo C', 'servo D']
     }
   };
 
