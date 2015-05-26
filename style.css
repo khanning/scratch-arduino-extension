@@ -39,16 +39,16 @@ header h1 {
   padding-top: 2px;
 }
 
-#nav a {
+#nav a, #langs a {
   color: blue;
   text-decoration: none;
 }
 
-#nav a:hover {
+#nav a:hover, #langs a:hover {
   text-decoration: underline;
 }
 
-#nav a:visited {
+#nav a:visited, #langs a:visited {
   color: blue;
 }
 
