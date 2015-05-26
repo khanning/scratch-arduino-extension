@@ -564,7 +564,6 @@
       leds: ['led A', 'led B', 'led C', 'led D'],
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
-      modes: ['OUTPUT', 'INPUT', 'PULL_UP'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     },  
     url: 'http://khanning.github.io/scratch-arduino-extension'
