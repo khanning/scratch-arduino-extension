@@ -8,6 +8,10 @@ h1 {
   color: #00979D;
 }
 
+li {
+  padding: 5px 0;
+}
+
 #header-container {
   margin: 0 0 50px 0;
   padding: 30px 0;
@@ -36,7 +40,7 @@ header h1 {
 }
 
 #nav li {
-  padding-top: 2px;
+  padding: 2px 0 0 0;
 }
 
 #nav a, #langs a {
