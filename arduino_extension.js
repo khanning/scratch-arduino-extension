@@ -35,11 +35,15 @@
     PWM = 0x03,
     SERVO = 0x04,
     SHIFT = 0x05,
-    I2C = 0x06;
+    I2C = 0x06,
+    TONE = 0x0A;
 
   var LOW = 0,
     HIGH = 1;
-  
+ 
+  var TONE_TONE = 0,
+    TONE_NO_TONE = 1;
+ 
   var MAX_DATA_BYTES = 4096;
   var MAX_PINS = 128;
 
@@ -335,6 +339,24 @@
         deg >> 0x07]);
     device.send(msg.buffer);
   }
+ 
+  function tone(pin, freq, duration) {
+    if (!hasCapability(pin, TONE)) {
+      console.log('ERROR: valid tone pins are ' + pinModes[TONE].join(', '));
+      return;
+    }
+    pinMode(pin, TONE);
+    var msg = new Uint8Array([
+        START_SYSEX,
+        0x5F,
+        TONE_TONE,
+        freq & 0x7F,
+        freq >> 7,
+        duration & 0x7f,
+        duration >> 7,
+        END_SYSEX]);
+    device.send(msg.buffer);
+  }
 
   ext.whenConnected = function() {
     if (notifyConnection) return true;
@@ -404,6 +426,10 @@
     rotateServo(hw.pin, deg);
     hw.val = deg;
   };
+ 
+  ext.tone = function(pin, freq, duration) {
+    tone(pin, freq, duration);
+  }
 
   ext.setLED = function(led, val) {
     var hw = hwList.search(led);
