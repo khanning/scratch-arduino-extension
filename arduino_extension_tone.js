@@ -590,6 +590,8 @@
       ['h', 'when analog %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
       ['r', 'read analog %n', 'analogRead', 0],
       ['-'],
+      [' ', 'tone on pin %n, freq %n, duration %n', 'tone', 3, 440, 1000],
+      ['-'],
       ['r', 'map %n from %n %n to %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
     de: [
@@ -619,6 +621,8 @@
       ['h', 'Wenn Analog %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
       ['r', 'Wert von Analog %n', 'analogRead', 0],
       ['-'],
+      [' ', 'tone on pin %n, freq %n, duration %n', 'tone', 3, 440, 1000],
+      ['-'],
       ['r', 'Setze %n von %n %n auf %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
     nl: [
@@ -647,6 +651,8 @@
       ['-'],
       ['h', 'wanneer analoge %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
       ['r', 'lees analoge %n', 'analogRead', 0],
+      ['-'],
+      [' ', 'tone on pin %n, freq %n, duration %n', 'tone', 3, 440, 1000],
       ['-'],
       ['r', 'zet %n van %n %n tot %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ]
