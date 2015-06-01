@@ -38,6 +38,8 @@
     I2C = 0x06,
     TONE = 0x0A;
 
+  var TOTAL_PIN_MODES = 11;
+
   var LOW = 0,
     HIGH = 1;
  
@@ -60,7 +62,7 @@
 
   var analogChannel = new Uint8Array(MAX_PINS);
   var pinModes = [];
-  for (var i = 0; i < 7; i++) pinModes[i] = [];
+  for (var i = 0; i < TOTAL_PIN_MODES; i++) pinModes[i] = [];
 
   var majorVersion = 0,
     minorVersion = 0;
@@ -180,7 +182,11 @@
       case CAPABILITY_RESPONSE:
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
           while (storedInputData[i++] != 0x7F) {
-            pinModes[storedInputData[i-1]].push(pin);
+            if (storedInputData[i-1] < TOTAL_PIN_MODES) {
+              pinModes[storedInputData[i-1]].push(pin);
+            } else {
+              console.log('Ignoring pin mode ' + storedInputData[i-1] + ' for pin ' + pin);
+            }
             i++; //Skip mode resolution
           }
           if (i == sysexBytesRead) break;
