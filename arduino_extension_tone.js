@@ -345,15 +345,29 @@
       console.log('ERROR: valid tone pins are ' + pinModes[TONE].join(', '));
       return;
     }
-    pinMode(pin, TONE);
     var msg = new Uint8Array([
         START_SYSEX,
         0x5F,
+        pin,
         TONE_TONE,
         freq & 0x7F,
         freq >> 7,
         duration & 0x7f,
         duration >> 7,
+        END_SYSEX]);
+    device.send(msg.buffer);
+  }
+
+  function noTone(pin) {
+    if (!hasCapability(pin, TONE)) {
+      console.log('ERROR: valid tone pins are ' + pinModes[TONE].join(', '));
+      return;
+    }
+    var msg = new Uint8Array([
+        START_SYSEX,
+        0x5F,
+        pin,
+        TONE_NO_TONE,
         END_SYSEX]);
     device.send(msg.buffer);
   }
@@ -429,6 +443,10 @@
  
   ext.tone = function(pin, freq, duration) {
     tone(pin, freq, duration);
+  }
+
+  ext.noTone = function(pin) {
+    noTone(pin);
   }
 
   ext.setLED = function(led, val) {
@@ -591,6 +609,7 @@
       ['r', 'read analog %n', 'analogRead', 0],
       ['-'],
       [' ', 'tone on pin %n, freq %n, duration %n', 'tone', 3, 440, 1000],
+      [' ', 'stop tone on pin %n', 'noTone', 3],
       ['-'],
       ['r', 'map %n from %n %n to %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
@@ -622,6 +641,7 @@
       ['r', 'Wert von Analog %n', 'analogRead', 0],
       ['-'],
       [' ', 'tone on pin %n, freq %n, duration %n', 'tone', 3, 440, 1000],
+      [' ', 'stop tone on pin %n', 'noTone', 3],
       ['-'],
       ['r', 'Setze %n von %n %n auf %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
@@ -653,6 +673,7 @@
       ['r', 'lees analoge %n', 'analogRead', 0],
       ['-'],
       [' ', 'tone on pin %n, freq %n, duration %n', 'tone', 3, 440, 1000],
+      [' ', 'stop tone on pin %n', 'noTone', 3],
       ['-'],
       ['r', 'zet %n van %n %n tot %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ]
