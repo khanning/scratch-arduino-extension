@@ -35,7 +35,11 @@
     PWM = 0x03,
     SERVO = 0x04,
     SHIFT = 0x05,
-    I2C = 0x06;
+    I2C = 0x06,
+    ONEWIRE = 0x07,
+    STEPPER = 0x08,
+    ENCODER = 0x09,
+    IGNORE = 0x7F;
 
   var LOW = 0,
     HIGH = 1;
@@ -56,7 +60,7 @@
 
   var analogChannel = new Uint8Array(MAX_PINS);
   var pinModes = [];
-  for (var i = 0; i < 7; i++) pinModes[i] = [];
+  for (var i = 0; i < 11; i++) pinModes[i] = [];
 
   var majorVersion = 0,
     minorVersion = 0;
@@ -174,8 +178,10 @@
   function processSysexMessage() {
     switch(storedInputData[0]) {
       case CAPABILITY_RESPONSE:
+        console.log(storedInputData);
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
           while (storedInputData[i++] != 0x7F) {
+            console.log(i);
             pinModes[storedInputData[i-1]].push(pin);
             i++; //Skip mode resolution
           }
