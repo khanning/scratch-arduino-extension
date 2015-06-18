@@ -82,7 +82,7 @@
   var hwList = new HWList();
 
   function HWList() {
-    this.devices = []
+    this.devices = [];
 
     this.add = function(dev, pin) {
       var device = this.search(dev);
@@ -237,7 +237,7 @@
         }
       } else if (waitForData > 0 && inputData[i] < 0x80) {
         storedInputData[--waitForData] = inputData[i];
-        if (executeMultiByteCommand != 0 && waitForData == 0) {
+        if (executeMultiByteCommand !== 0 && waitForData === 0) {
           switch(executeMultiByteCommand) {
             case DIGITAL_MESSAGE:
               setDigitalInputs(multiByteChannel, (storedInputData[0] << 7) + storedInputData[1]);
@@ -305,7 +305,7 @@
       return;
     }
     if (val < 0) val = 0;
-    else if (val > 100) val = 100
+    else if (val > 100) val = 100;
     val = Math.round((val / 100) * 255);
     pinMode(pin, PWM);
     var msg = new Uint8Array([
@@ -420,7 +420,7 @@
       if (val == 'on')
         return digitalRead(pin);
       else if (val == 'off')
-        return digitalRead(pin) == false;
+        return digitalRead(pin) === false;
     }
   };
 
@@ -449,11 +449,11 @@
  
   ext.tone = function(pin, freq, duration) {
     tone(pin, freq, duration);
-  }
+  };
 
   ext.noTone = function(pin) {
     noTone(pin);
-  }
+  };
 
   ext.setLED = function(led, val) {
     var hw = hwList.search(led);
@@ -567,7 +567,7 @@
       device = null;
       tryNextDevice();
     }, 5000);
-  };
+  }
 
   ext._shutdown = function() {
     // TODO: Bring all pins down 
