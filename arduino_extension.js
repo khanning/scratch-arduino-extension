@@ -627,6 +627,35 @@
       ['r', 'lees analoge %n', 'analogRead', 0],
       ['-'],
       ['r', 'zet %n van %n %n tot %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ],
+    it: [
+      ['h', 'quando Arduino è connesso', 'whenConnected'],
+      [' ', 'connetti il %m.hwOut al pin %n', 'connectHW', 'led A', 3],
+      [' ', 'connetti il %m.hwIn ad analog %n', 'connectHW', 'potenziometro', 0],
+      ['-'],
+      [' ', '%m.outputs il %m.leds', 'digitalLED', 'led A', 'on'],
+      [' ', 'porta luminosità di %m.leds a %n%', 'setLED', 'led A', 100],
+      [' ', 'cambia luminosità di %m.leds a %n%', 'changeLED', 'led A', 20],
+      ['-'],
+      [' ', 'ruota %m.servos fino a %n gradi', 'rotateServo', 'servo A', 180],
+      [' ', 'ruota %m.servos di %n gradi', 'changeServo', 'servo A', 20],
+      ['-'],
+      ['h', 'quando tasto %m.buttons è %m.btnStates', 'whenButton', 'pulsante A', 'premuto'],
+      ['b', '%m.buttons premuto?', 'isButtonPressed', 'pulsante A'],
+      ['-'],
+      ['h', 'quando %m.hwIn %m.ops %n%', 'whenInput', 'potenziometro', '>', 50],
+      ['r', 'leggi %m.hwIn', 'readInput', 'potenziometro'],
+      ['-'],
+      [' ', 'porta pin %n a %m.outputs', 'digitalWrite', 1, 'acceso'],
+      [' ', 'porta pin %n al %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'quando pin %n è %m.outputs', 'whenDigitalRead', 1, 'acceso'],
+      ['b', 'pin %n acceso?', 'digitalRead', 1],
+      ['-'],
+      ['h', 'quando analog %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'leggi analog %n', 'analogRead', 0],
+      ['-'],
+      ['r', 'porta %n da %n %n a %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ]
   };
 
@@ -658,6 +687,16 @@
       hwOut: ['led A', 'led B', 'led C', 'led D', 'knop A', 'knop B', 'knop C', 'knop D', 'servo A', 'servo B', 'servo C', 'servo D'],
       leds: ['led A', 'led B', 'led C', 'led D'],
       outputs: ['aan', 'uit'],
+      ops: ['>', '=', '<'],
+      servos: ['servo A', 'servo B', 'servo C', 'servo D']
+    },
+    it: {
+      buttons: ['pulsante A', 'pulsante B', 'pulsante C', 'pulsante D'],
+      btnStates: ['premuto', 'rilasciato'],
+      hwIn: ['potenziometro', 'sensore di luce', 'sensore di temperatura'],
+      hwOut: ['led A', 'led B', 'led C', 'led D', 'pulsante A', 'pulsante B', 'pulsante C', 'pulsante D', 'servo A', 'servo B', 'servo C', 'servo D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
+      outputs: ['acceso', 'spento'],
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     }
