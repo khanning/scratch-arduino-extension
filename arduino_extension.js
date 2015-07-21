@@ -43,7 +43,7 @@
 
   var LOW = 0,
     HIGH = 1;
-  
+
   var MAX_DATA_BYTES = 4096;
   var MAX_PINS = 128;
 
@@ -64,7 +64,7 @@
 
   var majorVersion = 0,
     minorVersion = 0;
-  
+
   var connected = false;
   var notifyConnection = false;
   var device = null;
@@ -147,7 +147,7 @@
     var output = new Uint8Array([START_SYSEX, QUERY_FIRMWARE, END_SYSEX]);
     device.send(output.buffer);
   }
- 
+
   function queryCapabilities() {
     console.log('Querying ' + device.id + ' capabilities');
     var msg = new Uint8Array([
@@ -219,9 +219,9 @@
     }
   }
 
-  function processInput(inputData) { 
+  function processInput(inputData) {
     for (var i=0; i < inputData.length; i++) {
-      
+
       if (parsingSysex) {
         if (inputData[i] == END_SYSEX) {
           parsingSysex = false;
@@ -437,7 +437,7 @@
       hw.val = 0;
     }
   };
-  
+
   ext.readInput = function(name) {
     var hw = hwList.search(name);
     if (!hw) return;
@@ -476,7 +476,7 @@
     var output = (((bMax - bMin) * (val - aMin)) / (aMax - aMin)) + bMin;
     return Math.round(output);
   };
- 
+
   ext._getStatus = function() {
     if (!connected)
       return { status:1, msg:'Disconnected' };
@@ -524,7 +524,7 @@
   }
 
   ext._shutdown = function() {
-    // TODO: Bring all pins down 
+    // TODO: Bring all pins down
     if (device) device.close();
     if (poller) clearInterval(poller);
     device = null;
@@ -627,6 +627,35 @@
       ['r', 'lees analoge %n', 'analogRead', 0],
       ['-'],
       ['r', 'zet %n van %n %n tot %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ],
+    ja: [
+      ['h', 'デバイスがつながったとき', 'whenConnected'],
+      [' ', '%m.hwOut を %n ピンへつなぐ', 'connectHW', 'led A', 3],
+      [' ', '%m.hwIn をアナログ入力 %n ピンへつなぐ', 'connectHW', 'rotation knob', 0],
+      ['-'],
+      [' ', '%m.leds を %m.outputs にする', 'digitalLED', 'led A', 'on'],
+      [' ', '%m.leds の明るさを %n% にする', 'setLED', 'led A', 100],
+      [' ', '%m.leds の明るさを %n% ずつ変える', 'changeLED', 'led A', 20],
+      ['-'],
+      [' ', '%m.servos を %n 度へ向ける', 'rotateServo', 'servo A', 180],
+      [' ', '%m.servos を %n 度ずつ回す', 'changeServo', 'servo A', 20],
+      ['-'],
+      ['h', '%m.buttons が %m.btnStates とき', 'whenButton', 'ボタン A', '押された'],
+      ['b', '%m.buttons 押された', 'isButtonPressed', 'ボタン A'],
+      ['-'],
+      ['h', '%m.hwIn が %m.ops %n% になったとき', 'whenInput', '回転つまみ', '>', 50],
+      ['r', '%m.hwIn の値', 'readInput', '回転つまみ'],
+      ['-'],
+      [' ', 'デジタル出力 %n を %m.outputs にする', 'digitalWrite', 1, 'on'],
+      [' ', 'アナログ出力 %n を %n% にする', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'デジタル入力 %n が %m.outputs になったとき', 'whenDigitalRead', 1, 'on'],
+      ['b', 'デジタル入力 %n はオン', 'digitalRead', 1],
+      ['-'],
+      ['h', 'アナログ入力 %n が %m.ops %n% になったとき', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'アナログ入力 %n の値', 'analogRead', 0],
+      ['-'],
+      ['r', '%n を %n ... %n から %n ... %n へ変換', 'mapValues', 50, 0, 100, -240, 240]
     ]
   };
 
@@ -640,7 +669,7 @@
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
-    },  
+    },
     de: {
       buttons: ['Taste A', 'Taste B', 'Taste C', 'Taste D'],
       btnStates: ['gedrückt', 'losgelassen'],
@@ -660,6 +689,16 @@
       outputs: ['aan', 'uit'],
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
+    },
+    ja: {
+      buttons: ['ボタン A', 'ボタン B', 'ボタン C', 'ボタン D'],
+      btnStates: ['押された', '放された'],
+      hwIn: ['回転つまみ', '光センサー', '温度センサー'],
+      hwOut: ['led A', 'led B', 'led C', 'led D', 'ボタン A', 'ボタン B', 'ボタン C', 'ボタン D', 'サーボ A', 'サーボ B', 'サーボ C', 'サーボ D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
+      outputs: ['オン', 'オフ'],
+      ops: ['>', '=', '<'],
+      servos: ['サーボ A', 'サーボ B', 'サーボ C', 'サーボ D']
     }
   };
 
