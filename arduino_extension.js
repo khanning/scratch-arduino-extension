@@ -743,6 +743,35 @@
       ['r', 'ler valor analogico %n', 'analogRead', 0],
       ['-'],
       ['r', 'mapear %n from %n %n to %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ],
+    el: [
+      ['h', 'Όταν η συσκευή είναι συνδεδεμένη', 'whenConnected'],
+      [' ', 'σύνδεσε το %m.hwOut στο pin %n', 'connectHW', 'led A', 3],
+      [' ', 'σύνδεσε το %m.hwIn στο αναλογικό %n', 'connectHW', 'ποντεσιόμετρο', 0],
+      ['-'],
+      [' ', 'άλλαξε το %m.leds σε %m.outputs', 'digitalLED', 'led A', 'ενεργοποιημένο'],
+      [' ', 'όρισε στο %m.leds τη φωτεινότητα ίση με %n%', 'setLED', 'led A', 100],
+      [' ', 'άλλαξε στο %m.leds τη φωτεινότητα κατά %n%', 'changeLED', 'led A', 20],
+      ['-'],
+      [' ', 'στρίψε το %m.servos στις %n μοίρες', 'rotateServo', 'servo A', 180],
+      [' ', 'στρίψε το %m.servos κατά %n μοίρες', 'changeServo', 'servo A', 20],
+      ['-'],
+      ['h', 'Όταν το %m.buttons είναι %m.btnStates', 'whenButton', 'κουμπί A', 'πατημένο'],
+      ['b', 'το %m.buttons πατήθηκε;', 'isButtonPressed', 'κουμπί A'],
+      ['-'],
+      ['h', 'Όταν το %m.hwIn %m.ops %n%', 'whenInput', 'ποντεσιόμετρο', '>', 50],
+      ['r', 'διάβασε %m.hwIn', 'readInput', 'ποντεσιόμετρο'],
+      ['-'],
+      [' ', 'άλλαξε το pin %n σε %m.outputs', 'digitalWrite', 1, 'ενεργοποιημένο'],
+      [' ', 'όρισε το pin %n σε %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'Όταν το pin %n είναι %m.outputs', 'whenDigitalRead', 1, 'ενεργοποιημένο'],
+      ['b', 'το pin %n είναι ενεργοποιημένο;', 'digitalRead', 1],
+      ['-'],
+      ['h', 'Όταν το αναλογικό %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'διάβασε το αναλογικό %n', 'analogRead', 0],
+      ['-'],
+      ['r', 'συσχέτισε %n από %n %n έως %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ]
   };
 
@@ -814,6 +843,16 @@
       hwOut: ['led A', 'led B', 'led C', 'led D', 'botao A', 'botao B', 'botao C', 'botao D', 'servo A', 'servo B', 'servo C', 'servo D'],
       leds: ['led A', 'led B', 'led C', 'led D'],
       outputs: ['ligado', 'desligado'],
+      ops: ['>', '=', '<'],
+      servos: ['servo A', 'servo B', 'servo C', 'servo D']
+    },
+    el: {
+      buttons: ['κουμπί A', 'κουμπί B', 'κουμπί C', 'κουμπί D'],
+      btnStates: ['πατημένο', 'ελεύθερο'],
+      hwIn: ['ποντεσιόμετρο', 'φωτοαισθητήρα', 'θερμοαισθητήρα'],
+      hwOut: ['led A', 'led B', 'led C', 'led D', 'κουμπί A', 'κουμπί B', 'κουμπί C', 'κουμπί D', 'servo A', 'servo B', 'servo C', 'servo D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
+      outputs: ['ενεργοποιημένο', 'απενεργοποιημένο'],
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     }
