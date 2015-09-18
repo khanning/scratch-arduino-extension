@@ -133,7 +133,7 @@
         queryFirmware();
         pinging = true;
       }
-    }, 100);
+    }, 2000);
   }
 
   function hasCapability(pin, mode) {
@@ -180,7 +180,11 @@
       case CAPABILITY_RESPONSE:
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
           while (storedInputData[i++] != 0x7F) {
-            pinModes[storedInputData[i-1]].push(pin);
+            // This helped reduce error over a noisy wireless serial connection
+            if ( storedInputData[i-1] <= MAX_PINS )
+            {
+              pinModes[storedInputData[i-1]].push(pin);
+            }
             i++; //Skip mode resolution
           }
           if (i == sysexBytesRead) break;
@@ -502,11 +506,13 @@
     device = potentialDevices.shift();
     if (!device) return;
 
-    device.open({ stopBits: 0, bitRate: 57600, ctsFlowControl: 0 });
+    // Moved set_receive_handler to the ready callback for open to fix a race condition.
     console.log('Attempting connection with ' + device.id);
-    device.set_receive_handler(function(data) {
-      var inputData = new Uint8Array(data);
-      processInput(inputData);
+    device.open({ stopBits: 0, bitRate: 57600, ctsFlowControl: 0 }, function() {
+      device.set_receive_handler(function(data) {
+        var inputData = new Uint8Array(data);
+        processInput(inputData);
+      });
     });
 
     poller = setInterval(function() {
