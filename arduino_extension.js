@@ -772,6 +772,35 @@
       ['r', 'διάβασε το αναλογικό %n', 'analogRead', 0],
       ['-'],
       ['r', 'συσχέτισε %n από %n %n έως %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ],
+    es: [
+      ['h', 'al conectar el dispositivo', 'whenConnected'],
+      [' ', 'conectar %m.hwOut al pin %n', 'connectHW', 'led A', 3], 
+      [' ', 'conectar %m.hwIn al pin analógico %n', 'connectHW', 'potenciómetro', 0], 
+      ['-'],
+      [' ', 'fijar estado de %m.leds a %m.outputs', 'digitalLED', 'led A', 'on'],
+      [' ', 'fijar brillo de %m.leds a %n%', 'setLED', 'led A', 100],
+      [' ', 'cambiar brillo de %m.leds por %n%', 'changeLED', 'led A', 20],
+      ['-'],
+      [' ', 'apuntar %m.servos en dirección %n grados', 'rotateServo', 'servo A', 180],
+      [' ', 'girar %m.servos %n grados', 'changeServo', 'servo A', 20],
+      ['-'],
+      ['h', 'cuando el %m.buttons esté %m.btnStates', 'whenButton', 'botón A', 'presionado'],
+      ['b', '¿%m.buttons presionado?', 'isButtonPressed', 'botón A'],
+      ['-'],
+      ['h', 'cuando %m.hwIn %m.ops %n%', 'whenInput', 'potenciómetro', '>', 50],
+      ['r', 'leer %m.hwIn', 'readInput', 'potenciómetro'],
+      ['-'],
+      [' ', 'fijar estado de pin %n a %m.outputs', 'digitalWrite', 1, 'on'],
+      [' ', 'fijar pin analógico %n al %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'cuando el pin %n esté %m.outputs', 'whenDigitalRead', 1, 'on'],
+      ['b', '¿pin %n on?', 'digitalRead', 1], 
+      ['-'],
+      ['h', 'cuando pin analógico %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'leer analógico %n', 'analogRead', 0], 
+      ['-'],
+      ['r', 'convertir %n de %n %n a %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ]
   };
 
@@ -853,6 +882,16 @@
       hwOut: ['led A', 'led B', 'led C', 'led D', 'κουμπί A', 'κουμπί B', 'κουμπί C', 'κουμπί D', 'servo A', 'servo B', 'servo C', 'servo D'],
       leds: ['led A', 'led B', 'led C', 'led D'],
       outputs: ['ενεργοποιημένο', 'απενεργοποιημένο'],
+      ops: ['>', '=', '<'],
+      servos: ['servo A', 'servo B', 'servo C', 'servo D']
+    }
+    es: {
+      buttons: ['botón A', 'botón B', 'botón C', 'botón D'],
+      btnStates: ['pulsado', 'liberado'],
+      hwIn: ['potenciómetro', 'sensor de luz', 'sensor de temperatura'],
+      hwOut: ['led A', 'led B', 'led C', 'led D', 'botón A', 'botón B', 'botón C', 'botón D', 'servo A', 'servo B', 'servo C', 'servo D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
+      outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     }
