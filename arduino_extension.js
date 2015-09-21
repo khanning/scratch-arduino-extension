@@ -884,7 +884,7 @@
       outputs: ['ενεργοποιημένο', 'απενεργοποιημένο'],
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
-    }
+    },
     es: {
       buttons: ['botón A', 'botón B', 'botón C', 'botón D'],
       btnStates: ['pulsado', 'liberado'],
