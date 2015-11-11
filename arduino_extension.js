@@ -350,9 +350,9 @@
   };
 
   ext.digitalWrite = function(pin, val) {
-    if (val == 'on')
+    if (val == descriptor.menus.outputs[0])
       digitalWrite(pin, HIGH);
-    else if (val == 'off')
+    else if (val == descriptor.menus.outputs[1])
       digitalWrite(pin, LOW);
   };
 
@@ -379,9 +379,9 @@
 
   ext.whenDigitalRead = function(pin, val) {
     if (hasCapability(pin, INPUT)) {
-      if (val == 'on')
+      if (val == descriptor.menus.outputs[0])
         return digitalRead(pin);
-      else if (val == 'off')
+      else if (val == descriptor.menus.outputs[1])
         return digitalRead(pin) === false;
     }
   };
@@ -429,10 +429,10 @@
   ext.digitalLED = function(led, val) {
     var hw = hwList.search(led);
     if (!hw) return;
-    if (val == 'on') {
+    if (val == descriptor.menus.outputs[0]) {
       digitalWrite(hw.pin, HIGH);
       hw.val = 255;
-    } else if (val == 'off') {
+    } else if (val == descriptor.menus.outputs[1]) {
       digitalWrite(hw.pin, LOW);
       hw.val = 0;
     }
@@ -447,9 +447,9 @@
   ext.whenButton = function(btn, state) {
     var hw = hwList.search(btn);
     if (!hw) return;
-    if (state === 'pressed')
+    if (state === descriptor.menus.btnStates[0])
       return digitalRead(hw.pin);
-    else if (state === 'released')
+    else if (state === descriptor.menus.btnStates[1])
       return !digitalRead(hw.pin);
   };
 
@@ -659,10 +659,10 @@
     ],
     ko: [
       ['h', '아두이노가 연결됐을 때', 'whenConnected'],
-      [' ', '%n 번 핀을 %m.hwOut 로 설정하기', 'connectHW', 3, 'led A'],
-      [' ', '아날로그 %n 번 핀을 %m.hwIn 로 설정하기', 'connectHW', 0, '회전 손잡이'],
+      [' ', '%m.hwOut 를 %n 번 핀에 연결하기', 'connectHW', 'led A', 3],
+      [' ', '%m.hwIn 를 아날로그 %n 번 핀에 연결하기', 'connectHW', '회전 손잡이', 0],
       ['-'],
-      [' ', '%m.leds 를 %m.outputs', 'digitalLED', 'led A', 'on'],
+      [' ', '%m.leds 를 %m.outputs', 'digitalLED', 'led A', '켜기'],
       [' ', '%m.leds 의 밝기를 %n% 로 설정하기', 'setLED', 'led A', 100],
       [' ', '%m.leds 의 밝기를 %n% 만큼 바꾸기', 'changeLED', 'led A', 20],
       ['-'],
@@ -675,10 +675,10 @@
       ['h', '%m.hwIn 의 값이 %m.ops %n% 일 때', 'whenInput', '회전 손잡이', '>', 50],
       ['r', '%m.hwIn 의 값', 'readInput', '회전 손잡이'],
       ['-'],
-      [' ', '%n 번 핀을 %m.outputs', 'digitalWrite', 1, 'on'],
+      [' ', '%n 번 핀을 %m.outputs', 'digitalWrite', 1, '켜기'],
       [' ', '%n 번 핀의 값을 %n% 로 설정하기', 'analogWrite', 3, 100],
       ['-'],
-      ['h', '%n 번 핀의 상태가 %m.outputs 일 때', 'whenDigitalRead', 1, 'on'],
+      ['h', '%n 번 핀의 상태가 %m.outputs 일 때', 'whenDigitalRead', 1, '켜기'],
       ['b', '%n 번 핀이 켜져있는가?', 'digitalRead', 1],
       ['-'],
       ['h', '아날로그 %n 번 핀의 값이 %m.ops %n% 일 때', 'whenAnalogRead', 1, '>', 50],
@@ -935,7 +935,7 @@
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     }
   };
-
+    
   var descriptor = {
     blocks: blocks[lang],
     menus: menus[lang],
