@@ -103,7 +103,6 @@
   }
 
   function init() {
-
     for (var i = 0; i < 16; i++) {
       var output = new Uint8Array([REPORT_DIGITAL | i, 0x01]);
       device.send(output.buffer);
@@ -310,6 +309,7 @@
   }
 
   function digitalWrite(pin, val) {
+    console.log('digitalWrite ' + pin + ' -- ' + val);
     if (!hasCapability(pin, OUTPUT)) {
       console.log('ERROR: valid output pins are ' + pinModes[OUTPUT].join(', '));
       return;
@@ -350,9 +350,10 @@
   };
 
   ext.digitalWrite = function(pin, val) {
-    if (val == 'on')
+    console.log('ext.digitalWrite ' + pin + ' -- ' + val);
+    if (val == menus[lang]['outputs'][0])
       digitalWrite(pin, HIGH);
-    else if (val == 'off')
+    else if (val == menus[lang]['outputs'][1])
       digitalWrite(pin, LOW);
   };
 
@@ -428,12 +429,15 @@
 
   ext.digitalLED = function(led, val) {
     var hw = hwList.search(led);
+    console.log('digitlLED ' + led + ' -- ' + hw.pin + ' -- ' + val);
     if (!hw) return;
-    if (val == 'on') {
+    if (val == menus[lang]['outputs'][0]) {
       digitalWrite(hw.pin, HIGH);
+      console.log('digitalLED write ON');
       hw.val = 255;
-    } else if (val == 'off') {
+    } else if (val == menus[lang]['outputs'][1]) {
       digitalWrite(hw.pin, LOW);
+      console.log('digitalLED write OFF');
       hw.val = 0;
     }
   };
@@ -503,6 +507,7 @@
     if (!device) return;
 
     device.open({ stopBits: 0, bitRate: 57600, ctsFlowControl: 0 });
+
     console.log('Attempting connection with ' + device.id);
     device.set_receive_handler(function(data) {
       var inputData = new Uint8Array(data);
@@ -604,7 +609,7 @@
       [' ', 'connetti il %m.hwOut al pin %n', 'connectHW', 'led A', 3],
       [' ', 'connetti il %m.hwIn ad analog %n', 'connectHW', 'potenziometro', 0],
       ['-'],
-      [' ', '%m.outputs il %m.leds', 'digitalLED', 'led A', 'on'],
+      [' ', 'imposta %m.leds a %m.outputs', 'digitalLED', 'led A', 'acceso'],
       [' ', 'porta luminosità di %m.leds a %n%', 'setLED', 'led A', 100],
       [' ', 'cambia luminosità di %m.leds a %n%', 'changeLED', 'led A', 20],
       ['-'],
@@ -617,7 +622,7 @@
       ['h', 'quando %m.hwIn %m.ops %n%', 'whenInput', 'potenziometro', '>', 50],
       ['r', 'leggi %m.hwIn', 'readInput', 'potenziometro'],
       ['-'],
-      [' ', 'porta pin %n a %m.outputs', 'digitalWrite', 1, 'acceso'],
+      [' ', 'imposta pin %n a %m.outputs', 'digitalWrite', 1, 'acceso'],
       [' ', 'porta pin %n al %n%', 'analogWrite', 3, 100],
       ['-'],
       ['h', 'quando pin %n è %m.outputs', 'whenDigitalRead', 1, 'acceso'],
