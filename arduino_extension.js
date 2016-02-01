@@ -39,7 +39,10 @@
     ONEWIRE = 0x07,
     STEPPER = 0x08,
     ENCODER = 0x09,
-    IGNORE = 0x7F;
+    SERIAL = 0x0A,
+    PULLUP = 0x0B,
+    IGNORE = 0x7F,
+    TOTAL_PIN_MODES = 13;
 
   var LOW = 0,
     HIGH = 1;
@@ -60,7 +63,7 @@
 
   var analogChannel = new Uint8Array(MAX_PINS);
   var pinModes = [];
-  for (var i = 0; i < 11; i++) pinModes[i] = [];
+  for (var i = 0; i < TOTAL_PIN_MODES; i++) pinModes[i] = [];
 
   var majorVersion = 0,
     minorVersion = 0;
@@ -180,7 +183,7 @@
       case CAPABILITY_RESPONSE:
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
           while (storedInputData[i++] != 0x7F) {
-            pinModes[storedInputData[i-1]].push(pin);
+	    pinModes[storedInputData[i-1]].push(pin);
             i++; //Skip mode resolution
           }
           if (i == sysexBytesRead) break;
