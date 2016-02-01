@@ -183,7 +183,7 @@
       case CAPABILITY_RESPONSE:
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
           while (storedInputData[i++] != 0x7F) {
-	    pinModes[storedInputData[i-1]].push(pin);
+            pinModes[storedInputData[i-1]].push(pin);
             i++; //Skip mode resolution
           }
           if (i == sysexBytesRead) break;
