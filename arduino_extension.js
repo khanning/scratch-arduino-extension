@@ -46,7 +46,7 @@
 
   var LOW = 0,
     HIGH = 1;
-  
+
   var MAX_DATA_BYTES = 4096;
   var MAX_PINS = 128;
 
@@ -67,7 +67,7 @@
 
   var majorVersion = 0,
     minorVersion = 0;
-  
+
   var connected = false;
   var notifyConnection = false;
   var device = null;
@@ -150,7 +150,7 @@
     var output = new Uint8Array([START_SYSEX, QUERY_FIRMWARE, END_SYSEX]);
     device.send(output.buffer);
   }
- 
+
   function queryCapabilities() {
     console.log('Querying ' + device.id + ' capabilities');
     var msg = new Uint8Array([
@@ -222,9 +222,8 @@
     }
   }
 
-  function processInput(inputData) { 
+  function processInput(inputData) {
     for (var i=0; i < inputData.length; i++) {
-      
       if (parsingSysex) {
         if (inputData[i] == END_SYSEX) {
           parsingSysex = false;
@@ -440,7 +439,7 @@
       hw.val = 0;
     }
   };
-  
+
   ext.readInput = function(name) {
     var hw = hwList.search(name);
     if (!hw) return;
@@ -479,7 +478,7 @@
     var output = (((bMax - bMin) * (val - aMin)) / (aMax - aMin)) + bMin;
     return Math.round(output);
   };
- 
+
   ext._getStatus = function() {
     if (!connected)
       return { status:1, msg:'Disconnected' };
@@ -527,7 +526,7 @@
   }
 
   ext._shutdown = function() {
-    // TODO: Bring all pins down 
+    // TODO: Bring all pins down
     if (device) device.close();
     if (poller) clearInterval(poller);
     device = null;
@@ -603,34 +602,34 @@
       ['r', 'Setze %n von %n %n auf %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
     fr: [
-			['h', "Quand l'appareil est connecté", 'whenConnected'],
-			[' ', 'Connecté %m.hwOut au pin %n', 'connectHW', 'LED A', 3], 
-			[' ', 'Connecté %m.hwIn au pin analogue %n', 'connectHW', 'Potentiomètre', 0], 
-			['-'],
-			[' ', 'Régler %m.leds LED %m.output Sortie', 'digitalLED', 'LED A', 'ON'],
-			[' ', 'Régler %m.leds Luminosité de la LED à %n%', 'setLED', 'LED A', 100],
-			[' ', 'Changer %m.leds Luminosité de la LED de %n%', 'changeLED', 'LED A', 20],
-			['-'],
-			[' ', 'Tourner %m.servos Servo Moteur à %n degrés', 'rotateServo', 'Servo Moteur A', 180],
-			[' ', 'Tourner %m.servos Servo Moteur de %n degrés', 'changeServo', 'Servo Moteur A', 20],
-			['-'],
-			['h', 'Quand %m.buttons Bouton est %m.btnStates', 'whenButton', 'Bouton A', 'Appuyé'],
-			['b', 'Le %m.buttons est-il pressé?', 'isButtonPressed', 'Bouton A'],
-			['-'],
-			['h', 'Quand %m.hwIn %m.ops %n%', 'whenInput', 'Potentiomètre', '>', 50],
-			['r', 'Lire %m.hwIn', 'readInput', 'Potentiomètre'],
-			['-'],
-			[' ', 'Régler le Pin %n %m.outputs Sortie', 'digitalWrite', 1, 'ON'],
-			[' ', 'Régler le Pin %n à %n%', 'analogWrite', 3, 100],
-			['-'],
-			['h', 'Quand le Pin %n est %m.outputs Sortie', 'whenDigitalRead', 1, 'ON'],
-			['b', 'Le Pin %n est-il démarré?', 'digitalRead', 1], 
-			['-'],
-			['h', 'Quand le Pin analogique est %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
-			['r', 'Lire le Pin Analogique %n', 'analogRead', 0], 
-			['-'],
-			['r', 'Mapper %n de %n %n à %n %n', 'mapValues', 50, 0, 100, -240, 240]
-		],
+      ['h', "Quand l'appareil est connecté", 'whenConnected'],
+      [' ', 'Connecté %m.hwOut au pin %n', 'connectHW', 'LED A', 3],
+      [' ', 'Connecté %m.hwIn au pin analogue %n', 'connectHW', 'Potentiomètre', 0],
+      ['-'],
+      [' ', 'Régler %m.leds LED %m.output Sortie', 'digitalLED', 'LED A', 'ON'],
+      [' ', 'Régler %m.leds Luminosité de la LED à %n%', 'setLED', 'LED A', 100],
+      [' ', 'Changer %m.leds Luminosité de la LED de %n%', 'changeLED', 'LED A', 20],
+      ['-'],
+      [' ', 'Tourner %m.servos Servo Moteur à %n degrés', 'rotateServo', 'Servo Moteur A', 180],
+      [' ', 'Tourner %m.servos Servo Moteur de %n degrés', 'changeServo', 'Servo Moteur A', 20],
+      ['-'],
+      ['h', 'Quand %m.buttons Bouton est %m.btnStates', 'whenButton', 'Bouton A', 'Appuyé'],
+      ['b', 'Le %m.buttons est-il pressé?', 'isButtonPressed', 'Bouton A'],
+      ['-'],
+      ['h', 'Quand %m.hwIn %m.ops %n%', 'whenInput', 'Potentiomètre', '>', 50],
+      ['r', 'Lire %m.hwIn', 'readInput', 'Potentiomètre'],
+      ['-'],
+      [' ', 'Régler le Pin %n %m.outputs Sortie', 'digitalWrite', 1, 'ON'],
+      [' ', 'Régler le Pin %n à %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'Quand le Pin %n est %m.outputs Sortie', 'whenDigitalRead', 1, 'ON'],
+      ['b', 'Le Pin %n est-il démarré?', 'digitalRead', 1],
+      ['-'],
+      ['h', 'Quand le Pin analogique est %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'Lire le Pin Analogique %n', 'analogRead', 0],
+      ['-'],
+      ['r', 'Mapper %n de %n %n à %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ],
     it: [
       ['h', 'quando Arduino è connesso', 'whenConnected'],
       [' ', 'connetti il %m.hwOut al pin %n', 'connectHW', 'led A', 3],
@@ -776,35 +775,35 @@
       ['-'],
       ['r', 'zet %n van %n %n tot %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
-		pl: [
-			['h', 'kiedy urządzenie jest podłączone', 'whenConnected'],
-			[' ', 'podłącz %m.hwOut do pinu %n', 'connectHW', 'led A', 3],
-			[' ', 'podłącz %m.hwIn do we analogowego %n', 'connectHW', 'pokrętło', 0],
-			['-'],
-			[' ', 'ustaw %m.leds na %m.outputs', 'digitalLED', 'led A', 'włączony'],
-			[' ', 'ustaw jasność %m.leds na %n%', 'setLED', 'led A', 100],
-			[' ', 'zmień jasność %m.leds o %n%', 'changeLED', 'led A', 20],
-			['-'],
-			[' ', 'obróć %m.servos w położenie %n degrees', 'rotateServo', 'serwo A', 180],
-			[' ', 'obróć %m.servos o %n degrees', 'changeServo', 'serwo A', 20],
-			['-'],
-			['h', 'kiedy %m.buttons jest %m.btnStates', 'whenButton', 'przycisk A', 'wciśnięty'],
-			['b', 'czy %m.buttons jest wciśnięty?', 'isButtonPressed', 'przycisk A'],
-			['-'],
-			['h', 'kiedy %m.hwIn jest w położeniu %m.ops %n%', 'whenInput', 'pokrętło', '>', 50],
-			['r', 'odczytaj ustawienie %m.hwIn', 'readInput', 'pokrętła'],
-			['-'],
-			[' ', 'ustaw pin %n jako %m.outputs', 'digitalWrite', 1, 'włączony'],
-			[' ', 'ustaw pin %n na %n%', 'analogWrite', 3, 100],
-			['-'],
-			['h', 'kiedy pin %n jest %m.outputs', 'whenDigitalRead', 1, 'włączony'],
-			['b', 'czy pin %n jest włączony?', 'digitalRead', 1],
-			['-'],
-			['h', 'kiedy we analogowe %n jest w położeniu %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
-			['r', 'odczytaj we analogowe %n', 'analogRead', 0],
-			['-'],
-			['r', 'przekształć wartość %n z zakresu %n %n na %n %n', 'mapValues', 50, 0, 100, -240, 240]
-		],
+    pl: [
+      ['h', 'kiedy urządzenie jest podłączone', 'whenConnected'],
+      [' ', 'podłącz %m.hwOut do pinu %n', 'connectHW', 'led A', 3],
+      [' ', 'podłącz %m.hwIn do we analogowego %n', 'connectHW', 'pokrętło', 0],
+      ['-'],
+      [' ', 'ustaw %m.leds na %m.outputs', 'digitalLED', 'led A', 'włączony'],
+      [' ', 'ustaw jasność %m.leds na %n%', 'setLED', 'led A', 100],
+      [' ', 'zmień jasność %m.leds o %n%', 'changeLED', 'led A', 20],
+      ['-'],
+      [' ', 'obróć %m.servos w położenie %n degrees', 'rotateServo', 'serwo A', 180],
+      [' ', 'obróć %m.servos o %n degrees', 'changeServo', 'serwo A', 20],
+      ['-'],
+      ['h', 'kiedy %m.buttons jest %m.btnStates', 'whenButton', 'przycisk A', 'wciśnięty'],
+      ['b', 'czy %m.buttons jest wciśnięty?', 'isButtonPressed', 'przycisk A'],
+      ['-'],
+      ['h', 'kiedy %m.hwIn jest w położeniu %m.ops %n%', 'whenInput', 'pokrętło', '>', 50],
+      ['r', 'odczytaj ustawienie %m.hwIn', 'readInput', 'pokrętła'],
+      ['-'],
+      [' ', 'ustaw pin %n jako %m.outputs', 'digitalWrite', 1, 'włączony'],
+      [' ', 'ustaw pin %n na %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'kiedy pin %n jest %m.outputs', 'whenDigitalRead', 1, 'włączony'],
+      ['b', 'czy pin %n jest włączony?', 'digitalRead', 1],
+      ['-'],
+      ['h', 'kiedy we analogowe %n jest w położeniu %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'odczytaj we analogowe %n', 'analogRead', 0],
+      ['-'],
+      ['r', 'przekształć wartość %n z zakresu %n %n na %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ],
     pt: [
       ['h', 'Quando dispositivo estiver conectado', 'whenConnected'],
       [' ', 'conectar%m.hwOut para pino %n', 'connectHW', 'led A', 3],
@@ -865,8 +864,8 @@
     ],
     es: [
       ['h', 'al conectar el dispositivo', 'whenConnected'],
-      [' ', 'conectar %m.hwOut al pin %n', 'connectHW', 'led A', 3], 
-      [' ', 'conectar %m.hwIn al pin analógico %n', 'connectHW', 'potenciómetro', 0], 
+      [' ', 'conectar %m.hwOut al pin %n', 'connectHW', 'led A', 3],
+      [' ', 'conectar %m.hwIn al pin analógico %n', 'connectHW', 'potenciómetro', 0],
       ['-'],
       [' ', 'fijar estado de %m.leds a %m.outputs', 'digitalLED', 'led A', 'on'],
       [' ', 'fijar brillo de %m.leds a %n%', 'setLED', 'led A', 100],
@@ -885,42 +884,42 @@
       [' ', 'fijar pin analógico %n al %n%', 'analogWrite', 3, 100],
       ['-'],
       ['h', 'cuando el pin %n esté %m.outputs', 'whenDigitalRead', 1, 'on'],
-      ['b', '¿pin %n on?', 'digitalRead', 1], 
+      ['b', '¿pin %n on?', 'digitalRead', 1],
       ['-'],
       ['h', 'cuando pin analógico %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
-      ['r', 'leer analógico %n', 'analogRead', 0], 
+      ['r', 'leer analógico %n', 'analogRead', 0],
       ['-'],
       ['r', 'convertir %n de %n %n a %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
     zh: [
-			['h', '當裝置連接時', 'whenConnected'],
-			[' ', '連接 %m.hwOut 到腳位 %n', 'connectHW', '發光二極體 A', 3],
-			[' ', '連接 %m.hwIn 到類比 %n', 'connectHW', '旋鈕', 0],
-			['-'],
-			[' ', '設定 %m.leds %m.outputs', 'digitalLED', '發光二極體 A', 'on'],
-			[' ', '設定 %m.leds 亮度為 %n%', 'setLED', '發光二極體 A', 100],
-			[' ', '改變 %m.leds 亮度 %n%', 'changeLED', '發光二極體 A', 20],
-			['-'],
-			[' ', '旋轉 %m.servos 到 %n 度', 'rotateServo', '伺服馬達 A', 180],
-			[' ', '旋轉 %m.servos %n 度', 'changeServo', '伺服馬達 A', 20],
-			['-'],
-			['h', '當 %m.buttons 為 %m.btnStates', 'whenButton', '按鈕 A', '按下'],
-			['b', '%m.buttons 按下?', 'isButtonPressed', '按鈕 A'],
-			['-'],
-			['h', '當 %m.hwIn %m.ops %n%', 'whenInput', '旋鈕', '>', 50],
-			['r', '讀取 %m.hwIn', 'readInput', '旋鈕'],
-			['-'],
-			[' ', '設定腳位 %n %m.outputs', 'digitalWrite', 1, '開'],
-			[' ', '設定腳位 %n 為 %n%', 'analogWrite', 3, 100],
-			['-'],
-			['h', '當腳位 %n 為 %m.outputs', 'whenDigitalRead', 1, '開'],
-			['b', '腳位 %n 開?', 'digitalRead', 1],
-			['-'],
-			['h', '當類比 %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
-			['r', '讀取類比 %n', 'analogRead', 0],
-			['-'],
-			['r', '對應 %n 由 %n %n 為 %n %n', 'mapValues', 50, 0, 100, -240, 240]
-		]
+      ['h', '當裝置連接時', 'whenConnected'],
+      [' ', '連接 %m.hwOut 到腳位 %n', 'connectHW', '發光二極體 A', 3],
+      [' ', '連接 %m.hwIn 到類比 %n', 'connectHW', '旋鈕', 0],
+      ['-'],
+      [' ', '設定 %m.leds %m.outputs', 'digitalLED', '發光二極體 A', 'on'],
+      [' ', '設定 %m.leds 亮度為 %n%', 'setLED', '發光二極體 A', 100],
+      [' ', '改變 %m.leds 亮度 %n%', 'changeLED', '發光二極體 A', 20],
+      ['-'],
+      [' ', '旋轉 %m.servos 到 %n 度', 'rotateServo', '伺服馬達 A', 180],
+      [' ', '旋轉 %m.servos %n 度', 'changeServo', '伺服馬達 A', 20],
+      ['-'],
+      ['h', '當 %m.buttons 為 %m.btnStates', 'whenButton', '按鈕 A', '按下'],
+      ['b', '%m.buttons 按下?', 'isButtonPressed', '按鈕 A'],
+      ['-'],
+      ['h', '當 %m.hwIn %m.ops %n%', 'whenInput', '旋鈕', '>', 50],
+      ['r', '讀取 %m.hwIn', 'readInput', '旋鈕'],
+      ['-'],
+      [' ', '設定腳位 %n %m.outputs', 'digitalWrite', 1, '開'],
+      [' ', '設定腳位 %n 為 %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', '當腳位 %n 為 %m.outputs', 'whenDigitalRead', 1, '開'],
+      ['b', '腳位 %n 開?', 'digitalRead', 1],
+      ['-'],
+      ['h', '當類比 %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', '讀取類比 %n', 'analogRead', 0],
+      ['-'],
+      ['r', '對應 %n 由 %n %n 為 %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ]
   };
 
   var menus = {
@@ -933,7 +932,7 @@
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
-    },  
+    },
     de: {
       buttons: ['Taste A', 'Taste B', 'Taste C', 'Taste D'],
       btnStates: ['gedrückt', 'losgelassen'],
@@ -1004,16 +1003,16 @@
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     },
-		pl: {
-			buttons: ['przycisk A', 'przycisk B', 'przycisk C', 'przycisk D'],
-			btnStates: ['wciśnięty', 'zwolniony'],
-			hwIn: ['pokrętło', 'czujnik światła', 'czujnik temperatury'],
-			hwOut: ['led A', 'led B', 'led C', 'led D', 'przycisk A', 'przycisk B', 'przycisk C', 'przycisk D', 'serwo A', 'serwo B', 'serwo C', 'serwo D'],
-			leds: ['led A', 'led B', 'led C', 'led D'],
-			outputs: ['włączony', 'wyłączony'],
-			ops: ['>', '=', '<'],
-			servos: ['serwo A', 'serwo B', 'serwo C', 'serwo D']
-		},
+    pl: {
+      buttons: ['przycisk A', 'przycisk B', 'przycisk C', 'przycisk D'],
+      btnStates: ['wciśnięty', 'zwolniony'],
+      hwIn: ['pokrętło', 'czujnik światła', 'czujnik temperatury'],
+      hwOut: ['led A', 'led B', 'led C', 'led D', 'przycisk A', 'przycisk B', 'przycisk C', 'przycisk D', 'serwo A', 'serwo B', 'serwo C', 'serwo D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
+      outputs: ['włączony', 'wyłączony'],
+      ops: ['>', '=', '<'],
+      servos: ['serwo A', 'serwo B', 'serwo C', 'serwo D']
+    },
     pt: {
       buttons: ['botao A', 'botao B', 'botao C', 'botao D'],
       btnStates: ['pressionado', 'solto'],
@@ -1045,15 +1044,15 @@
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     },
     zh: {
-			buttons: ['按鈕 A', '按鈕 B', '按鈕 C', '按鈕 D'],
-			btnStates: ['按下', '放開'],
-			hwIn: ['旋鈕', '光感應器', '溫度感應器'],
-			hwOut: ['發光二極體 A', '發光二極體 B', '發光二極體 C', '發光二極體 D', '按鈕 A', '按鈕 B', '按鈕 C', '按鈕 D', '伺服馬達 A', '伺服馬達 B', '伺服馬達 C', '伺服馬達 D'],
-			leds: ['發光二極體 A', '發光二極體 B', '發光二極體 C', '發光二極體 D'],
-			outputs: ['開', '關'],
-			ops: ['>', '=', '<'],
-			servos: ['伺服馬達 A', '伺服馬達 B', '伺服馬達 C', '伺服馬達 D']
-		}
+      buttons: ['按鈕 A', '按鈕 B', '按鈕 C', '按鈕 D'],
+      btnStates: ['按下', '放開'],
+      hwIn: ['旋鈕', '光感應器', '溫度感應器'],
+      hwOut: ['發光二極體 A', '發光二極體 B', '發光二極體 C', '發光二極體 D', '按鈕 A', '按鈕 B', '按鈕 C', '按鈕 D', '伺服馬達 A', '伺服馬達 B', '伺服馬達 C', '伺服馬達 D'],
+      leds: ['發光二極體 A', '發光二極體 B', '發光二極體 C', '發光二極體 D'],
+      outputs: ['開', '關'],
+      ops: ['>', '=', '<'],
+      servos: ['伺服馬達 A', '伺服馬達 B', '伺服馬達 C', '伺服馬達 D']
+    }
   };
 
   var descriptor = {
