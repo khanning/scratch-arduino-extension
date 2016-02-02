@@ -183,7 +183,7 @@
       case CAPABILITY_RESPONSE:
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
           while (storedInputData[i++] != 0x7F) {
-            pinModes[storedInputData[i-1]].push(pin);
+	    pinModes[storedInputData[i-1]].push(pin);
             i++; //Skip mode resolution
           }
           if (i == sysexBytesRead) break;
@@ -353,9 +353,9 @@
   };
 
   ext.digitalWrite = function(pin, val) {
-    if (val == 'on')
+    if (val == menus[lang]['outputs'][0])
       digitalWrite(pin, HIGH);
-    else if (val == 'off')
+    else if (val == menus[lang]['outputs'][1])
       digitalWrite(pin, LOW);
   };
 
@@ -382,9 +382,9 @@
 
   ext.whenDigitalRead = function(pin, val) {
     if (hasCapability(pin, INPUT)) {
-      if (val == 'on')
+      if (val == menus[lang]['outputs'][0])
         return digitalRead(pin);
-      else if (val == 'off')
+      else if (val == menus[lang]['outputs'][1])
         return digitalRead(pin) === false;
     }
   };
