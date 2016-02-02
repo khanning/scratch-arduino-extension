@@ -602,6 +602,35 @@
       ['-'],
       ['r', 'Setze %n von %n %n auf %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
+    fr: [
+			['h', "Quand l'appareil est connecté", 'whenConnected'],
+			[' ', 'Connecté %m.hwOut au pin %n', 'connectHW', 'LED A', 3], 
+			[' ', 'Connecté %m.hwIn au pin analogue %n', 'connectHW', 'Potentiomètre', 0], 
+			['-'],
+			[' ', 'Régler %m.leds LED %m.output Sortie', 'digitalLED', 'LED A', 'ON'],
+			[' ', 'Régler %m.leds Luminosité de la LED à %n%', 'setLED', 'LED A', 100],
+			[' ', 'Changer %m.leds Luminosité de la LED de %n%', 'changeLED', 'LED A', 20],
+			['-'],
+			[' ', 'Tourner %m.servos Servo Moteur à %n degrés', 'rotateServo', 'Servo Moteur A', 180],
+			[' ', 'Tourner %m.servos Servo Moteur de %n degrés', 'changeServo', 'Servo Moteur A', 20],
+			['-'],
+			['h', 'Quand %m.buttons Bouton est %m.btnStates', 'whenButton', 'Bouton A', 'Appuyé'],
+			['b', 'Le %m.buttons est-il pressé?', 'isButtonPressed', 'Bouton A'],
+			['-'],
+			['h', 'Quand %m.hwIn %m.ops %n%', 'whenInput', 'Potentiomètre', '>', 50],
+			['r', 'Lire %m.hwIn', 'readInput', 'Potentiomètre'],
+			['-'],
+			[' ', 'Régler le Pin %n %m.outputs Sortie', 'digitalWrite', 1, 'ON'],
+			[' ', 'Régler le Pin %n à %n%', 'analogWrite', 3, 100],
+			['-'],
+			['h', 'Quand le Pin %n est %m.outputs Sortie', 'whenDigitalRead', 1, 'ON'],
+			['b', 'Le Pin %n est-il démarré?', 'digitalRead', 1], 
+			['-'],
+			['h', 'Quand le Pin analogique est %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+			['r', 'Lire le Pin Analogique %n', 'analogRead', 0], 
+			['-'],
+			['r', 'Mapper %n de %n %n à %n %n', 'mapValues', 50, 0, 100, -240, 240]
+		],
     it: [
       ['h', 'quando Arduino è connesso', 'whenConnected'],
       [' ', 'connetti il %m.hwOut al pin %n', 'connectHW', 'led A', 3],
@@ -885,6 +914,16 @@
       outputs: ['Ein', 'Aus'],
       ops: ['>', '=', '<'],
       servos: ['Servo A', 'Servo B', 'Servo C', 'Servo D']
+    },
+    fr: {
+      buttons: ['Bouton A', 'Bouton B', 'Bouton C', 'Bouton D'],
+      btnStates: ['Appuyé', 'Relâché'],
+      hwIn: ['Potentiomètre', 'Capteur de Lumière', 'Capteur de Temperature'],
+      hwOut: ['LED A', 'LED B', 'LED C', 'LED D', 'Bouton A', 'Bouton B', 'Bouton C', 'Bouton D', 'Servo Moteur A', 'Servo Moteur B', 'Servo Moteur C', 'Servo Moteur D'],
+      leds: ['LED A', 'LED B', 'LED C', 'LED D'],
+      outputs: ['ON', 'OFF'],
+      ops: ['>', '=', '<'],
+      servos: ['Servo Moteur A', 'Servo Moteur B', 'Servo Moteur C', 'Servo Moteur D']
     },
     it: {
       buttons: ['pulsante A', 'pulsante B', 'pulsante C', 'pulsante D'],
