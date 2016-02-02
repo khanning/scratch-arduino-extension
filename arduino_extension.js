@@ -891,7 +891,36 @@
       ['r', 'leer analógico %n', 'analogRead', 0], 
       ['-'],
       ['r', 'convertir %n de %n %n a %n %n', 'mapValues', 50, 0, 100, -240, 240]
-    ]
+    ],
+    zh: [
+			['h', '當裝置連接時', 'whenConnected'],
+			[' ', '連接 %m.hwOut 到腳位 %n', 'connectHW', '發光二極體 A', 3],
+			[' ', '連接 %m.hwIn 到類比 %n', 'connectHW', '旋鈕', 0],
+			['-'],
+			[' ', '設定 %m.leds %m.outputs', 'digitalLED', '發光二極體 A', 'on'],
+			[' ', '設定 %m.leds 亮度為 %n%', 'setLED', '發光二極體 A', 100],
+			[' ', '改變 %m.leds 亮度 %n%', 'changeLED', '發光二極體 A', 20],
+			['-'],
+			[' ', '旋轉 %m.servos 到 %n 度', 'rotateServo', '伺服馬達 A', 180],
+			[' ', '旋轉 %m.servos %n 度', 'changeServo', '伺服馬達 A', 20],
+			['-'],
+			['h', '當 %m.buttons 為 %m.btnStates', 'whenButton', '按鈕 A', '按下'],
+			['b', '%m.buttons 按下?', 'isButtonPressed', '按鈕 A'],
+			['-'],
+			['h', '當 %m.hwIn %m.ops %n%', 'whenInput', '旋鈕', '>', 50],
+			['r', '讀取 %m.hwIn', 'readInput', '旋鈕'],
+			['-'],
+			[' ', '設定腳位 %n %m.outputs', 'digitalWrite', 1, '開'],
+			[' ', '設定腳位 %n 為 %n%', 'analogWrite', 3, 100],
+			['-'],
+			['h', '當腳位 %n 為 %m.outputs', 'whenDigitalRead', 1, '開'],
+			['b', '腳位 %n 開?', 'digitalRead', 1],
+			['-'],
+			['h', '當類比 %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+			['r', '讀取類比 %n', 'analogRead', 0],
+			['-'],
+			['r', '對應 %n 由 %n %n 為 %n %n', 'mapValues', 50, 0, 100, -240, 240]
+		]
   };
 
   var menus = {
@@ -1014,7 +1043,17 @@
       outputs: ['on', 'off'],
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
-    }
+    },
+    zh: {
+			buttons: ['按鈕 A', '按鈕 B', '按鈕 C', '按鈕 D'],
+			btnStates: ['按下', '放開'],
+			hwIn: ['旋鈕', '光感應器', '溫度感應器'],
+			hwOut: ['發光二極體 A', '發光二極體 B', '發光二極體 C', '發光二極體 D', '按鈕 A', '按鈕 B', '按鈕 C', '按鈕 D', '伺服馬達 A', '伺服馬達 B', '伺服馬達 C', '伺服馬達 D'],
+			leds: ['發光二極體 A', '發光二極體 B', '發光二極體 C', '發光二極體 D'],
+			outputs: ['開', '關'],
+			ops: ['>', '=', '<'],
+			servos: ['伺服馬達 A', '伺服馬達 B', '伺服馬達 C', '伺服馬達 D']
+		}
   };
 
   var descriptor = {
