@@ -747,6 +747,35 @@
       ['-'],
       ['r', 'zet %n van %n %n tot %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ],
+		pl: [
+			['h', 'kiedy urządzenie jest podłączone', 'whenConnected'],
+			[' ', 'podłącz %m.hwOut do pinu %n', 'connectHW', 'led A', 3],
+			[' ', 'podłącz %m.hwIn do we analogowego %n', 'connectHW', 'pokrętło', 0],
+			['-'],
+			[' ', 'ustaw %m.leds na %m.outputs', 'digitalLED', 'led A', 'włączony'],
+			[' ', 'ustaw jasność %m.leds na %n%', 'setLED', 'led A', 100],
+			[' ', 'zmień jasność %m.leds o %n%', 'changeLED', 'led A', 20],
+			['-'],
+			[' ', 'obróć %m.servos w położenie %n degrees', 'rotateServo', 'serwo A', 180],
+			[' ', 'obróć %m.servos o %n degrees', 'changeServo', 'serwo A', 20],
+			['-'],
+			['h', 'kiedy %m.buttons jest %m.btnStates', 'whenButton', 'przycisk A', 'wciśnięty'],
+			['b', 'czy %m.buttons jest wciśnięty?', 'isButtonPressed', 'przycisk A'],
+			['-'],
+			['h', 'kiedy %m.hwIn jest w położeniu %m.ops %n%', 'whenInput', 'pokrętło', '>', 50],
+			['r', 'odczytaj ustawienie %m.hwIn', 'readInput', 'pokrętła'],
+			['-'],
+			[' ', 'ustaw pin %n jako %m.outputs', 'digitalWrite', 1, 'włączony'],
+			[' ', 'ustaw pin %n na %n%', 'analogWrite', 3, 100],
+			['-'],
+			['h', 'kiedy pin %n jest %m.outputs', 'whenDigitalRead', 1, 'włączony'],
+			['b', 'czy pin %n jest włączony?', 'digitalRead', 1],
+			['-'],
+			['h', 'kiedy we analogowe %n jest w położeniu %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+			['r', 'odczytaj we analogowe %n', 'analogRead', 0],
+			['-'],
+			['r', 'przekształć wartość %n z zakresu %n %n na %n %n', 'mapValues', 50, 0, 100, -240, 240]
+		],
     pt: [
       ['h', 'Quando dispositivo estiver conectado', 'whenConnected'],
       [' ', 'conectar%m.hwOut para pino %n', 'connectHW', 'led A', 3],
@@ -907,6 +936,16 @@
       ops: ['>', '=', '<'],
       servos: ['servo A', 'servo B', 'servo C', 'servo D']
     },
+		pl: {
+			buttons: ['przycisk A', 'przycisk B', 'przycisk C', 'przycisk D'],
+			btnStates: ['wciśnięty', 'zwolniony'],
+			hwIn: ['pokrętło', 'czujnik światła', 'czujnik temperatury'],
+			hwOut: ['led A', 'led B', 'led C', 'led D', 'przycisk A', 'przycisk B', 'przycisk C', 'przycisk D', 'serwo A', 'serwo B', 'serwo C', 'serwo D'],
+			leds: ['led A', 'led B', 'led C', 'led D'],
+			outputs: ['włączony', 'wyłączony'],
+			ops: ['>', '=', '<'],
+			servos: ['serwo A', 'serwo B', 'serwo C', 'serwo D']
+		},
     pt: {
       buttons: ['botao A', 'botao B', 'botao C', 'botao D'],
       btnStates: ['pressionado', 'solto'],
