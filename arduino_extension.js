@@ -183,7 +183,7 @@
       case CAPABILITY_RESPONSE:
         for (var i = 1, pin = 0; pin < MAX_PINS; pin++) {
           while (storedInputData[i++] != 0x7F) {
-	    pinModes[storedInputData[i-1]].push(pin);
+            pinModes[storedInputData[i-1]].push(pin);
             i++; //Skip mode resolution
           }
           if (i == sysexBytesRead) break;
@@ -691,8 +691,8 @@
     ],
     nl: [
       ['h', 'als het apparaat verbonden is', 'whenConnected'],
-      [' ', 'verbindt %m.hwOut met pin %n', 'connectHW', 'led A', 3],
-      [' ', 'verbindt %m.hwIn met analoog %n', 'connectHW', 'draaiknop', 0],
+      [' ', 'verbind %m.hwOut met pin %n', 'connectHW', 'led A', 3],
+      [' ', 'verbind %m.hwIn met analoog %n', 'connectHW', 'draaiknop', 0],
       ['-'],
       [' ', 'schakel %m.leds %m.outputs', 'digitalLED', 'led A', 'on'],
       [' ', 'schakel %m.leds helderheid tot %n%', 'setLED', 'led A', 100],
@@ -702,7 +702,7 @@
       [' ', 'draai %m.servos met %n graden', 'changeServo', 'servo A', 20],
       ['-'],
       ['h', 'wanneer %m.buttons is %m.btnStates', 'whenButton', 'knop A', 'in gedrukt'],
-      ['b', '%m.knoppen in gedrukt?', 'isButtonPressed', 'knoppen A'],
+      ['b', '%m.buttons ingedrukt?', 'isButtonPressed', 'knop A'],
       ['-'],
       ['h', 'wanneer%m.hwIn %m.ops %n%', 'whenInput', 'draaiknop', '>', 50],
       ['r', 'read %m.hwIn', 'readInput', 'draaiknop'],
