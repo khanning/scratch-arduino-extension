@@ -660,6 +660,35 @@
       ['-'],
       ['r', '%n を %n ... %n から %n ... %n へ変換', 'mapValues', 50, 0, 100, -240, 240]
     ],
+    ko: [
+      ['h', '아두이노가 연결됐을 때', 'whenConnected'],
+      [' ', '%m.hwOut 를 %n 번 핀에 연결하기', 'connectHW', 'led A', 3],
+      [' ', '%m.hwIn 를 아날로그 %n 번 핀에 연결하기', 'connectHW', '회전 손잡이', 0],
+      ['-'],
+      [' ', '%m.leds 를 %m.outputs', 'digitalLED', 'led A', '켜기'],
+      [' ', '%m.leds 의 밝기를 %n% 로 설정하기', 'setLED', 'led A', 100],
+      [' ', '%m.leds 의 밝기를 %n% 만큼 바꾸기', 'changeLED', 'led A', 20],
+      ['-'],
+      [' ', '%m.servos 를 %n 도로 회전하기', 'rotateServo', '서보모터 A', 180],
+      [' ', '%m.servos 를 %n 도 만큼 회전하기', 'changeServo', '서보모터 A', 20],
+      ['-'],
+      ['h', '%m.buttons 의 상태가 %m.btnStates 일 때', 'whenButton', '버튼 A', '눌림'],
+      ['b', '%m.buttons 가 눌려져 있는가?', 'isButtonPressed', '버튼 A'],
+      ['-'],
+      ['h', '%m.hwIn 의 값이 %m.ops %n% 일 때', 'whenInput', '회전 손잡이', '>', 50],
+      ['r', '%m.hwIn 의 값', 'readInput', '회전 손잡이'],
+      ['-'],
+      [' ', '%n 번 핀을 %m.outputs', 'digitalWrite', 1, '켜기'],
+      [' ', '%n 번 핀의 값을 %n% 로 설정하기', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', '%n 번 핀의 상태가 %m.outputs 일 때', 'whenDigitalRead', 1, '켜기'],
+      ['b', '%n 번 핀이 켜져있는가?', 'digitalRead', 1],
+      ['-'],
+      ['h', '아날로그 %n 번 핀의 값이 %m.ops %n% 일 때', 'whenAnalogRead', 1, '>', 50],
+      ['r', '아날로그 %n 번 핀의 값', 'analogRead', 0],
+      ['-'],
+      ['r', '%n 을(를) %n ~ %n 에서 %n ~ %n 의 범위로 바꾸기', 'mapValues', 50, 0, 100, -240, 240]
+    ],
     nb: [
       ['h', 'når enheten tilkobles', 'whenConnected'],
       [' ', 'koble %m.hwOut til digital %n', 'connectHW', 'LED A', 3],
@@ -847,6 +876,16 @@
       outputs: ['オン', 'オフ'],
       ops: ['>', '=', '<'],
       servos: ['サーボ A', 'サーボ B', 'サーボ C', 'サーボ D']
+    },
+    ko: {
+      buttons: ['버튼 A', '버튼 B', '버튼 C', '버튼 D'],
+      btnStates: ['눌림', '떼짐'],
+      hwIn: ['회전 손잡이', '조도 센서', '온도 센서'],
+      hwOut: ['led A', 'led B', 'led C', 'led D', '버튼 A', '버튼 B', '버튼 C', '버튼 D', '서보모터 A', '서보모터 B', '서보모터 C', '서보모터 D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
+      outputs: ['켜기', '끄기'],
+      ops: ['>', '=', '<'],
+      servos: ['서보모터 A', '서보모터 B', '서보모터 C', '서보모터 D']
     },
     nb: {
       buttons: ['knapp A', 'knapp B', 'knapp C', 'knapp D'],
