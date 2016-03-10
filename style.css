@@ -1,7 +1,9 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #ECECEC;
+  background-color: #FFF;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.3em;
 }
 
 h1 {
@@ -14,7 +16,6 @@ li {
 
 #header-container {
   margin: 0 0 50px 0;
-  padding: 30px 0;
   background-color: #00979D;
 }
 
@@ -24,13 +25,49 @@ header {
 }
 
 header h1 {
-  color: #FFFFFF;
+  color: #FFF;
+  margin: 0;
+  padding: 30px 0;
+}
+
+header ul {
+  list-style-type: none;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+}
+
+header li {
+  float: left;
+  padding: 0;
+}
+
+header li a {
+  display: block;
+  color: #FFF;
+  text-align: center;
+  padding: 10px 16px;
+  text-decoration: none;
+}
+
+header a:hover:not(.selected) {
+  background-color: #008184;
+}
+
+header .selected {
+  background-color: #008184;
+}
+
+#github-banner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
 }
 
 #content-container {
   margin: 0 auto;
+  padding-bottom: 50px;
   max-width: 700px;
 }
 
@@ -54,6 +91,10 @@ header h1 {
 
 #nav a:visited, #langs a:visited {
   color: blue;
+}
+
+.small-text {
+  font-size: .8em;
 }
 
 .component {

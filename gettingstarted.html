@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>Scratch Arduino Extension</title>
+<link rel="stylesheet" type="text/css" href="style.css"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+
+<div id="header-container">
+  <header>
+    <h1>Scratch Arduino Extension</h1>
+    <ul>
+      <li><a href="index.html">About</a></li>
+      <li><a class="selected" href="gettingstarted.html">Getting Started</a></li>
+      <li><a href="blocks.html">Blocks</a></li>
+      <li><a href="hardware.html">Hardware</a></li>
+      <li><a href="examples.html">Examples</a></li>
+    </ul>
+  </header>
+  <a href="https://github.com/khanning/scratch-arduino-extension">
+    <img id="github-banner" src="images/github-banner.png" alt="View project on Github" />
+  </a>
+</div>
+
+<div id="content-container">
+
+  <a name="getting-started" />
+  <h1>Getting Started</h1>
+
+  <h3>1. Upload the StandardFirmata firmware to Arduino</h3>
+  <ol>
+    <li>If you haven't already, download and install the <a href="http://www.arduino.cc/en/Main/Software">Arduino software</a> <span class="small-text">(<a href="http://www.arduino.cc/en/Guide/Windows">Windows</a> or <a href="http://www.arduino.cc/en/Guide/MacOSX">Mac</a> instructions)</span></li>
+    <li>Connect the Arduino board to your computer's USB port</li>
+    <li>Launch the Arduino software<br /><img src="images/arduino.png" /></li>
+    <li>Go to <b>File &gt; Examples &gt; Firmata &gt; Standard Firmata</b><br /><img src="images/firmata.png" width=600 /></li>
+    <li>Select your Arduino board from the <b>Tools &gt; Board</b> menu<br /><img src="images/arduino-board.png" /></li>
+    <li>Select your serial port from the <b>Tools &gt; Port</b> menu.<br />On Mac, it's something like <b>/dev/tty.usbmodem-1511</b>.<br />On Windows, it's probably the highest-numbered COM port.<br />(Or unplug the Arduino, check the menu, and then replug your Arduino and see what new port appears.)<br /><img src="images/arduino-port.png" /></li>
+    <li>Click the upload button<br /><img src="images/arduino-upload.png" /></li>
+  </ol>
+
+  <h3>2. Install the Scratch Extensions Browser Plugin</h3>
+  <p>If you are using <b>Windows</b>, you should use the Firefox web browser<br />
+  If you are using a <b>Mac</b>, you can use either Chrome or Firefox</p>
+  Download and install the <a href="https://scratch.mit.edu/info/ext_download/">Scratch Extensions Browser Plugin</a></li>
+
+  <h3>3. Load the Arduino extension on ScratchX</h3>
+
+  <p>Launch the extension by going to the following URL:</p>
+  <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js ">http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js</a>
+
+  <p><b>NOTE:</b> On Firefox, you might see "Allow scratchx.org to run "Scratch Device?". Click "Allow...".</p>
+  <p><img src="images/firefox-plugin.png" width=600 /></p>
+  <p>You might see another message, "Allow scratchx.org to run plugins?". Set both Adobe Flash and Scratch Device to "Allow and Remember" and click okay.</p>
+  <p><img src="images/firefox-plugin2.png" /></p>
+
+  <h3>4. Waiting for the green light</h3>
+
+  <p>When you see the indicator light in the "More Blocks" tab turn green your ready to start using the extension!</p>
+  <img width=271 height=314 src="images/connected.png" alt="Green indicator light" />
+  <p>See the section on the homepage for <a href="index.html#languages">Supported Languages</a>, for information on alternate block tanslations.</p>
+  <p>Now take a look at the <a href="#blocks">Scratch Blocks</a> and the <a href="#examples">example projects</a> to learn how to use the extension.
+
+</div>
+
+<br />
+
+</body>
+</html>

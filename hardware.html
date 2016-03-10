@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>Scratch Arduino Extension</title>
+<link rel="stylesheet" type="text/css" href="style.css"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+
+<div id="header-container">
+  <header>
+    <h1>Scratch Arduino Extension</h1>
+    <ul>
+      <li><a href="index.html">About</a></li>
+      <li><a href="gettingstarted.html">Getting Started</a></li>
+      <li><a href="blocks.html">Blocks</a></li>
+      <li><a class="selected" href="hardware.html">Hardware</a></li>
+      <li><a href="examples.html">Examples</a></li>
+    </ul>
+  </header>
+  <a href="https://github.com/khanning/scratch-arduino-extension">
+    <img id="github-banner" src="images/github-banner.png" alt="View project on Github" />
+  </a>
+</div>
+
+<div id="content-container">
+
+  <a name="grove" />
+  <h1>Grove Modules</h1>
+
+  <h3>Grove Base Shield</h3>
+
+  <img width="350" src="images/grove-shield.jpg" />
+
+  <p>The <a href="http://www.seeedstudio.com/depot/Base-Shield-V2-p-1378.html">Grove Base Shield (V2)</a> connects your Arduino board to the other Grove modules. It has different kinds of connections:</p>
+  <dl>
+  <dt>A0, A1, A2, A3</dt>
+  <dd>Analog inputs that read from sensors, like the light sensor, temperature sensor, and rotation knob.</dd>
+  <dt>D2, D3, D4, D5, D6, D7, D8</dt>
+  <dd>Digital connections that control LEDs and servo motors and read from push buttons. To fade an LED (not just turn it on and off), use D3, D5, or D6.</dd>
+  <dt>I2C and UART</dt>
+  <dd>These are more complex connections that we don't use in the extension yet.</dd>
+  </dl>
+  <p>To connect a module to the shield, plug one of the Grove cables into the white connector on the module and one of the connectors on the shield. The cable only goes into the connector one way.</p>
+
+  <div class="component">
+  <h3>Grove Button</h3>
+  <img height="190" src="images/grove-button.jpg" />
+  <p>A button you can press</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove Light Sensor</h3>
+  <img height="190" src="images/grove-light-sensor.jpg" />
+  <p>Measures light</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove Rotation Knob</h3>
+  <img height="190" src="images/grove-rotation-knob.jpg" />
+  <p>Control things by rotating the knob</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove Temperature Sensor</h3>
+  <img height="190" src="images/grove-temperature-sensor.jpg" />
+  <p>Measures temperature</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove LED</h3>
+  <img height="190" src="images/grove-led.jpg" />
+  <p>A small light</p>
+  </div>
+
+  <div class="component">
+  <h3>Grove Servo Motor</h3>
+  <img height="190" src="images/grove-servo-motor.jpg" />
+  <p>Moves its arm back and forth</p>
+  </div>
+
+  <a name="circuits" />
+  <h1>Working w/ Basic Electronic Components</h1>
+
+  <img width=450 src="images/ArduinoUnoPins.png" alt="Arduino Uno" />
+  <dl>
+  <dt>A0, A1, A2, A3, A5</dt>
+  <dd>Analog inputs (green arrow) that read from sensors, like the light sensor, temperature sensor, and rotation knob.</dd>
+  <dt>2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13</dt>
+  <dd>Digital connections (red arrow) that control LEDs and servo motors and read from push buttons. To fade an LED (not just turn it on and off), use D3, D5, or D6.</dd>
+  </dl>
+
+</div>
+
+<br />
+
+</body>
+</html>

@@ -9,41 +9,31 @@
 <div id="header-container">
   <header>
     <h1>Scratch Arduino Extension</h1>
+    <ul>
+      <li><a class="selected" href="index.html">About</a></li>
+      <li><a href="gettingstarted.html">Getting Started</a></li>
+      <li><a href="blocks.html">Blocks</a></li>
+      <li><a href="hardware.html">Hardware</a></li>
+      <li><a href="examples.html">Examples</a></li>
+    </ul>
   </header>
+  <a href="https://github.com/khanning/scratch-arduino-extension">
+    <img id="github-banner" src="images/github-banner.png" alt="View project on Github" />
+  </a>
 </div>
 
 <div id="content-container">
-
-  <h1>Contents</h1>
-
-  <ul id="nav">
-    <li><a href="#quickstart">Quick Start</a></li>
-    <li><a href="#intro">Introduction</a></li>
-    <li><a href="#equipment">Equipment</a></li>
-    <li><a href="#getting-started">Getting Started</a></li>
-    <li><a href="#languages">Supported Languages</a></li>
-    <li><a href="#grove">Grove Modules</a></li>
-    <li><a href="#circuits">Working w/ Basic Electronic Components</a></li>
-    <li><a href="#blocks">Scratch Blocks</a></li>
-    <li><a href="#examples">Example Projects</a></li>
-  </ul>
-
-  <a name="quickstart" />
-  <h1>Quick Start</h1>
-  <p><b>NOTE:</b> there is an issue with ScratchX and the current version of the Scratch Browser Plug-in. As a temporary workaround, please install the previous version of the extension for <a href="bin/ScratchDevicePlugin.dmg">Mac</a> or <a href="bin/ScratchDevicePlugin.msi">Windows</a>.</p>
-  <p>To use the extension, upload the StandardFirmata program to your Arduino board, install the <a href="http://scratch.mit.edu/scratchr2/static/ext/download.html">Scratch Browser Plugin</a> (see notes below <a href="#firefox">for Firefox</a> and <a href="#chrome">for Chrome</a>), and then <a href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js">open the Arduino extension on ScratchX.org</a>.</p>
 
   <a name="intro" />
   <h1>Introduction</h1>
 
   <p>This <a href="https://scratch.mit.edu">Scratch</a> extension lets you interact with the physical world using an <a href="http://www.arduino.cc/">Arduino</a> board. For example, you can control lights and motors or measure light and temperature. The extension communicates with an Arduino board running the <a href="https://github.com/firmata/arduino">Firmata firmware</a>.</p>
 
+  <p>The Arduino extension uses <a href="http://scratchx.org">ScratchX</a>, which is the Experiemental Extension system for the Scratch programming language.</p>
+
   <img width="500" height="500" src="images/grove.jpg" /><br /><em>Arduino board with a Grove LED, button, and temperature sensor.</em>
 
-  <a name="equipment" />
-  <h1>Equipment</h1>
-
-  <h3>You need:</h3>
+  <h1>Equipment you will need:</h1>
 
   <dl>
   <dt>Arduino board</dt>
@@ -51,55 +41,15 @@
   <dt>USB Cable</dt>
   <dd>Full-sized</dd>
   <dt>Electronic components</dt>
-  <dd>We recommend the <a href="http://www.seeedstudio.com/depot/Grove-Starter-Kit-for-Arduino-p-1855.html">Grove starter kit for Arduino</a> (made by Seeed Studio). You can <a href="https://www.makershed.com/products/grove-starter-kit-plus">buy it from Maker Shed</a> in the U.S. For other options, see <a href="#circuits">working with basic electronic components</a> below.</dd>
+  <dd>We recommend the <a href="http://www.seeedstudio.com/depot/Grove-Starter-Kit-for-Arduino-p-1855.html">Grove starter kit for Arduino</a> (made by Seeed Studio). You can <a href="https://www.makershed.com/products/grove-starter-kit-plus">buy it from Maker Shed</a> in the U.S. For other options, see <a href="hardware.html#circuits">working with basic electronic components</a> below.</dd>
 
-  <a name="getting-started" />
   <h1>Getting Started</h1>
 
-  <p>The steps for getting started with the extension are:<p>
-  <ol>
-    <li>Upload the StandardFirmata firmware to your Arduino using <a href="#firmata-codebender">codebender</a> or the <a href="#firmata-arduino">Arduino IDE</a></li>
-    <li>Install the Scratch Extensions Browser Plugin</li>
-    <li>Load the Arduino extension on ScratchX</li>
-  </ol>
+  <p>For full instructions on using the extension, see the <a href="gettingstarted.html">Getting Started</a> page.</p>
 
-  <a name="firmata-codebender" />
-  <h3>Uploading StandardFirmata using codebender</h3>
-  <ol>
-    <li>Install the codebender plugin:<br />On <b>Chrome/Chromium</b>, install the <a  href="https://chrome.google.com/webstore/detail/codebender-app/magknjdfniglanojbpadmpjlglepnlko">codebender app</a> in the Chrome Web Store</a><br />On <b>Firefox</b>, install the <a href="https://codebender.cc/codebender.xpi">codebender Add-on</a></li>
-    <li>(Windows only) install the <a href="https://codebender.cc/drivers/windows-driver-installer.zip">device drivers</a></li>
-    <li>Connect the Arduino to your computer's USB port</li>
-    <li>Make sure the correct board and serial port is selected in the codebender window below and click "Run on Arduino"</li>
-  </ol>
-  <p>On <b>Mac</b>, the serial number will be something like <b>/dev/tty.usbmodem-1511</b>.<br />On <b>Windows</b>, the serial number will probably be the highest-numbered COM port.<br />(Or unplug the Arduino, check the menu, and then replug your Arduino and see what new port appears.)
+  <p>If you run into any problems using the extension, <a target="_blank" href="https://github.com/khanning/scratch-arduino-extension/issues/new">file an issue on Github</a></p>
 
-  <iframe style="height: 510px; width: 100%; margin: 10px 0 10px;" allowTransparency="true" src="https://codebender.cc/embed/example/Firmata/StandardFirmata" frameborder="0"></iframe>
-
-  <a name="firmata-arduino" />
-  <h3>Uploading StandardFirmata using Arduino IDE</h3>
-  <ol>
-    <li>Download and install the <a href="http://www.arduino.cc/en/Main/Software">Arduino software</a> (<a href="http://www.arduino.cc/en/Guide/Windows">Windows instructions</a>, <a href="http://www.arduino.cc/en/Guide/MacOSX">Mac instructions</a>)</li>
-    <li>Connect the Arduino to your computer's USB port</li>
-    <li>Open the Arduino software<br /><img src="images/arduino.png" /></li>
-    <li>Go to <b>File &gt; Examples &gt; Firmata &gt; Standard Firmata</b><br /><img src="images/firmata.png" height=500 /></li>
-    <li>Select your Arduino board from the <b>Tools &gt; Board</b> menu<br /><img src="images/arduino-board.png" /></li>
-    <li>Select your serial port from the <b>Tools &gt; Port</b> menu.<br />On Mac, it's something like <b>/dev/tty.usbmodem-1511</b>.<br />On Windows, it's probably the highest-numbered COM port.<br />(Or unplug the Arduino, check the menu, and then replug your Arduino and see what new port appears.)<br /><img src="images/arduino-port.png" /></li>
-    <li>Click the upload button<br /><img src="images/arduino-upload.png" /></li>
-  </ol>
-
-  <h3>Install the Scratch Extensions Browser Plugin</h3>
-  Download and install the <a href="https://scratch.mit.edu/info/ext_download/">Scratch Extensions Browser Plugin</a></li>
-
-  <h3>Load the Arduino extension on ScratchX</h3>
-
-  <p>Launch the extension by going to the following URL:</p>
-  <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js ">http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js</a>
-  <p>See the next section, <a href="#languages">Supported Languages</a>, for information on alternate block tanslations.</p>
-  <p><a name="firefox" />On <b>Firefox</b>, you might see "Allow scratchx.org to run "Scratch Device?". Click "Allow...".<br /><img src="images/firefox-plugin.png" /><br />You might see another message, "Allow scratchx.org to run plugins?". Set both Adobe Flash and Scratch Device to "Allow and Remember" and click okay.<br /><img src="images/firefox-plugin2.png" /></p>
-  <p><a name="chrome" />On <b>Chrome</b>, you'll need to enable NPAPI plugins. Go to <a href="chrome://flags/#enable-npapi">chrome://flags/#enable-npapi</a> and click enable:<br /><img src="images/chrome-npapi.png" /><br />Then, click "Relaunch Now" button:<br /><img src="images/chrome-npapi3.png" /><br />Then, when you go to ScratchX.org, you should see a puzzle piece icon with an X on it: <img src="images/chrome-plugin-broken.png" width="25" />. Click on it and select "Always allow plug-ins on scratchx.org":<br /><img src="images/chrome-plugin-enable.png" /></p>
-  <p>When you see the indicator light in the "More Blocks" tab turn green your ready to start using the extension!</p>
-  <img width=271 height=314 src="images/connected.png" alt="Green indicator light" />
-  <p>Now take a look at the <a href="#blocks">Scratch Blocks</a> and the <a href="#examples">example projects</a> to learn how to use the extension.
+  <p>If you already know what to do you can <a href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js" target="_blank">launch the extension on ScratchX</a></p>
 
   <a name="languages" />
   <h1>Supported Languages</h1>
@@ -114,249 +64,20 @@
     <br />
     <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=es">es - Spanish (español)</a>
     <br />
-    <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=fr">fr - French (français)</a>
-    <br />
     <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=it">it - Italian (Italiano)</a>
     <br />
     <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=ja">ja - Japanese (日本語)</a>
-    <br />
-    <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=ko">ko - Korean (한국어)</a>
     <br />
     <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=nb">nb - Norwegian (Bokmal)</a>
     <br />
     <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=nl">nl - Dutch (Nederlands)</a>
     <br />
-    <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=pl">pl - Polish (Polski)</a>
-    <br />
     <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=pt">pt - Portuguese (Português)</a>
-    <br />
-    <a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&lang=zh">zh - Traditional Chinese (正體字/繁體字)</a>
   </div>
-  <p>To set the block language, change the 'lang' query string in the ScratchX URL to one of the supported language codes.<br />
-  <i>e.g.<br />http://scratchx.org?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js<b>&lang=de</b></i></p>
-  <p>If you would like to provide block translations for another language see <a href="https://github.com/khanning/scratch-arduino-extension/issues/15">the Github issue</a>.</p>
+  <p>To set the block language, add <i>&lang=XX</i> to the ScratchX URL.<br />Where XX = one of the two letter language codes above </p>
+  <p><i>Example for German:<br /><span style="font-size:.9em;">http://scratchx.org?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js<b>&lang=de</span></b></i></p>
+  <p>If you would like to help out by providing block translations for another language, please see the <a href="https://github.com/khanning/scratch-arduino-extension/issues/15">Github issue</a>.</p>
 
-  <a name="grove" />
-  <h1>Grove Modules</h1>
-
-  <h3>Grove Base Shield</h3>
-
-  <img width="350" src="images/grove-shield.jpg" />
-
-  <p>The <a href="http://www.seeedstudio.com/depot/Base-Shield-V2-p-1378.html">Grove Base Shield (V2)</a> connects your Arduino board to the other Grove modules. It has different kinds of connections:</p>
-  <dl>
-  <dt>A0, A1, A2, A3</dt>
-  <dd>Analog inputs that read from sensors, like the light sensor, temperature sensor, and rotation knob.</dd>
-  <dt>D2, D3, D4, D5, D6, D7, D8</dt>
-  <dd>Digital connections that control LEDs and servo motors and read from push buttons. To fade an LED (not just turn it on and off), use D3, D5, or D6.</dd>
-  <dt>I2C and UART</dt>
-  <dd>These are more complex connections that we don't use in the extension yet.</dd>
-  </dl>
-  <p>To connect a module to the shield, plug one of the Grove cables into the white connector on the module and one of the connectors on the shield. The cable only goes into the connector one way.</p>
-
-  <div class="component">
-  <h3>Grove Button</h3>
-  <img height="190" src="images/grove-button.jpg" />
-  <p>A button you can press</p>
-  </div>
-
-  <div class="component">
-  <h3>Grove Light Sensor</h3>
-  <img height="190" src="images/grove-light-sensor.jpg" />
-  <p>Measures light</p>
-  </div>
-
-  <div class="component">
-  <h3>Grove Rotation Knob</h3>
-  <img height="190" src="images/grove-rotation-knob.jpg" />
-  <p>Control things by rotating the knob</p>
-  </div>
-
-  <div class="component">
-  <h3>Grove Temperature Sensor</h3>
-  <img height="190" src="images/grove-temperature-sensor.jpg" />
-  <p>Measures temperature</p>
-  </div>
-
-  <div class="component">
-  <h3>Grove LED</h3>
-  <img height="190" src="images/grove-led.jpg" />
-  <p>A small light</p>
-  </div>
-
-  <div class="component">
-  <h3>Grove Servo Motor</h3>
-  <img height="190" src="images/grove-servo-motor.jpg" />
-  <p>Moves its arm back and forth</p>
-  </div>
-
-  <a name="circuits" />
-  <h1>Working w/ Basic Electronic Components</h1>
-  Coming soon...
-
-  <a name="blocks" />
-  <h1>Scratch Blocks</h1>
-  <p>This is a brief description of each of the Scratch blocks included with the Arduino extension.</p>
-  <br />
-
-  <div class="block">
-  <img height="52" src="images/blocks/device-connected.png" />
-  <p>Runs when the device is connected</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/led-connect.png" />
-  <p>Connects an LED, button, or servo to a digital connection (D2, D3, D4, D5, D6, D7, D8).</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/sensor-connect.png" />
-  <p>Connects a rotation knob, light sensor, or temperature sensor to an analog connection (A0, A1, A2, A3).
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/led-digital.png" />
-  <p>Turns an LED on or off.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/led-set.png" />
-  <p>Sets an LED to a specified brightness from 0 - 100%.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/led-change.png" />
-  <p>Changes the current LED brightness by a specified amount.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/servo-set.png" />
-  <p>Rotates a servo to a specified location from 0 - 180 degrees.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/servo-change.png" />
-  <p>Changes a servo's current rotation by a specified amount.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="52" src="images/blocks/button-when.png" />
-  <p>Runs when a button is pressed or released.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="34" src="images/blocks/button-boolean.png" />
-  <p>Checks if a button is currently pressed.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="52" src="images/blocks/sensor-when.png" />
-  <p>Runs when a rotation knob, light sensor, or temperator sensor meet a certain condition.<p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="32" src="images/blocks/sensor-read.png" />
-  <p>Reads the current value of a rotation knob, light sensor, or temperature sensor. Value will be between 0 - 100.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/pin-write-digital.png" />
-  <p>Turns a digital connection (D2, D3, D4, D5, D6, D7, D8) on or off.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="39" src="images/blocks/pin-write-analog.png" />
-  <p>Sets a capable digital connection (D3, D5, D6) to a value from 0 - 100%.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="52" src="images/blocks/pin-when-digital.png" />
-  </p>Runs when a digital connection (D2, D3, D4, D5, D6, D7, D8) is turned on or off.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="34" src="images/blocks/pin-read-digital.png" />
-  <p>Checks if a digital connection (D2, D3, D4, D5, D6, D7, D8) is on or off.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="52" src="images/blocks/pin-when-analog.png" />
-  </p>Runs when an analog connection (A0, A1, A2, A3) meets a certain condition.</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="34" src="images/blocks/pin-read-analog.png" />
-  <p>Checks the current value of an analog connection (A0, A1, A2, A3).</p>
-  </div>
-
-  <hr />
-
-  <div class="block">
-  <img height="34" src="images/blocks/map.png" />
-  <p>Maps a value between two ranges of numbers. This example might be used to map an analog sensor's value (0 to 100) to a sprite's x position (-240 to 240).</p> 
-  </div>
-
-  <a name="examples" />
-  <h1>Example Projects</h1>
-
-  <dl>
-    <dt><a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/examples/Arduino%20Example%20-%20Blink%20an%20LED.sbx">Blink an LED</a></dt>
-    <dd>Make an LED blink on and off</dd>
-    <br />
-    <dt><a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&url=http://khanning.github.io/scratch-arduino-extension/examples/Arduino%20Example%20-%20Fade%20an%20LED.sbx">Fade an LED</a></dt>
-    <dd>Fade an LED brightness</dd>
-    <br />
-    <dt><a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&url=http://khanning.github.io/scratch-arduino-extension/examples/Arduino%20Example%20-%20Button.sbx">Button</a></dt>
-    <dd>Pressing and releasing a button</dd>
-    <br />
-    <dt><a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&url=http://khanning.github.io/scratch-arduino-extension/examples/Arduino%20Example%20-%20Rotation%20Knob.sbx">Rotation Knob</a></dt>
-    <dd>Reading analog input from a rotation knob</dd>
-    <br />
-    <dt><a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&url=http://khanning.github.io/scratch-arduino-extension/examples/Arduino%20Example%20-%20Light%20Sensor.sbx">Light Sensor</a></dt>
-    <dd>Reading analog input from a light sensor</dd>
-    <br />
-    <dt><a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&url=http://khanning.github.io/scratch-arduino-extension/examples/Arduino%20Example%20-%20Adjusting%20LED%20with%20Rotation%20Knob.sbx">Adjusting LED with Rotation Knob</a></dt>
-    <dd>Adjust the brightness of an LED by turning a rotation knob</dd>
-    <br />
-    <dt><a target="_new" href="http://scratchx.org/?url=http://khanning.github.io/scratch-arduino-extension/arduino_extension.js&url=http://khanning.github.io/scratch-arduino-extension/examples/Arduino%20Example%20-%20Swing%20a%20Servo.sbx">Swing a Servo</a></dt>
-    <dd>Swinging a servo motor back and forth</dd>
-    <br />
-  </dl>
-  
 </div>
 
 <br />
