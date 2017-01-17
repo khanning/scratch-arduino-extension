@@ -431,10 +431,10 @@
   ext.digitalLED = function(led, val) {
     var hw = hwList.search(led);
     if (!hw) return;
-    if (val == 'on') {
+    if (val == menus[lang]['outputs'][0]) {
       digitalWrite(hw.pin, HIGH);
       hw.val = 255;
-    } else if (val == 'off') {
+    } else if (val == menus[lang]['outputs'][1]) {
       digitalWrite(hw.pin, LOW);
       hw.val = 0;
     }
@@ -449,9 +449,9 @@
   ext.whenButton = function(btn, state) {
     var hw = hwList.search(btn);
     if (!hw) return;
-    if (state === 'pressed')
+    if (state === menus[lang]['btnStates'][0])
       return digitalRead(hw.pin);
-    else if (state === 'released')
+    else if (state === menus[lang]['btnStates'][1])
       return !digitalRead(hw.pin);
   };
 
