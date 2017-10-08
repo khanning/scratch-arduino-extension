@@ -948,6 +948,35 @@
       ['r', '讀取類比 %n', 'analogRead', 0],
       ['-'],
       ['r', '對應 %n 由 %n %n 為 %n %n', 'mapValues', 50, 0, 100, -240, 240]
+    ],
+    sv: [
+      ['h', 'när enheten är ansluten', 'whenConnected'],
+      [' ', 'anslut %m.hwOut till pinne %n', 'connectHW', 'led A', 3],
+      [' ', 'anslut %m.hwIn till analog %n', 'connectHW', 'rotationsknopp', 0],
+      ['-'],
+      [' ', 'sätt %m.leds %m.outputs', 'digitalLED', 'led A', 'på'],
+      [' ', 'sätt %m.leds ljusstyrka till %n%', 'setLED', 'led A', 100],
+      [' ', 'ändra %m.leds ljusstyrka med %n%', 'changeLED', 'led A', 20],
+      ['-'],
+      [' ', 'rotera %m.servos till %n grader', 'rotateServo', 'servo A', 180],
+      [' ', 'rotera %m.servos med %n grader', 'changeServo', 'servo A', 20],
+      ['-'],
+      ['h', 'när %m.buttons är %m.btnStates', 'whenButton', 'knapp A', 'nedtryckt'],
+      ['b', '%m.buttons nedtryckt?', 'isButtonPressed', 'knapp A'],
+      ['-'],
+      ['h', 'när %m.hwIn %m.ops %n%', 'whenInput', 'rotationsknopp', '>', 50],
+      ['r', 'läs %m.hwIn', 'readInput', 'rotationsknopp'],
+      ['-'],
+      [' ', 'sätt pinne %n %m.outputs', 'digitalWrite', 1, 'på'],
+      [' ', 'sätt pinne %n till %n%', 'analogWrite', 3, 100],
+      ['-'],
+      ['h', 'när pinne %n är %m.outputs', 'whenDigitalRead', 1, 'på'],
+      ['b', 'pinne %n på?', 'digitalRead', 1],
+      ['-'],
+      ['h', 'när analog %n %m.ops %n%', 'whenAnalogRead', 1, '>', 50],
+      ['r', 'läs analog %n', 'analogRead', 0],
+      ['-'],
+      ['r', 'mappa %n från %n %n till %n %n', 'mapValues', 50, 0, 100, -240, 240]
     ]
   };
 
@@ -1091,6 +1120,16 @@
       outputs: ['開', '關'],
       ops: ['>', '=', '<'],
       servos: ['伺服馬達 A', '伺服馬達 B', '伺服馬達 C', '伺服馬達 D']
+    },
+    sv: {
+      buttons: ['knapp A', 'knapp B', 'knapp C', 'knapp D'],
+      btnStates: ['nedtryckt', 'släppt'],
+      hwIn: ['rotationsknopp', 'ljussensor', 'temperaturgivare'],
+      hwOut: ['led A', 'led B', 'led C', 'led D', 'knapp A', 'knapp B', 'knapp C', 'knapp D', 'servo A', 'servo B', 'servo C', 'servo D'],
+      leds: ['led A', 'led B', 'led C', 'led D'],
+      outputs: ['på', 'av'],
+      ops: ['>', '=', '<'],
+	servos: ['servo A', 'servo B', 'servo C', 'servo D']
     }
   };
 
